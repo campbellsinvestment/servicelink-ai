@@ -22,6 +22,8 @@ ENDPOINTS = {
     "/recommendations": "/recommendations",
     "/social-posts/reddit": "/social-posts/reddit",
     "/entity-links": "/entity-links",
+    "/job-postings": "/job-postings",
+    "/job-links": "/job-links",
 }
 
 

@@ -407,6 +407,10 @@ body {
   border-top-color: #005072;
 }
 
+.graph-legend__line--job-match {
+  border-top-color: #2f7a4b;
+}
+
 .graph-legend__line--provides {
   border-top-color: #b8b8b8;
   border-top-style: dashed;
@@ -418,7 +422,7 @@ body {
 }
 
 .graph-panel {
-  min-height: 520px;
+  min-height: 560px;
   padding: 0.75rem;
   background: var(--acie-bg);
   border: 1px solid var(--acie-border);
@@ -429,7 +433,7 @@ body {
 .graph-panel svg {
   display: block;
   width: 100%;
-  min-width: 720px;
+  min-width: 960px;
   height: auto;
 }
 

@@ -36,8 +36,15 @@ function addEdge(edges, edgeKeys, source, target, type, score = null) {
   });
 }
 
-export function buildGraphData({ posts, services, links }) {
+export function buildGraphData({
+  posts,
+  jobs = [],
+  services,
+  links,
+  jobLinks = [],
+}) {
   const postMap = Object.fromEntries(posts.map((post) => [post.post_id, post]));
+  const jobMap = Object.fromEntries(jobs.map((job) => [job.posting_id, job]));
   const serviceMap = Object.fromEntries(
     services.map((service) => [service.service_id, service]),
   );
@@ -66,6 +73,41 @@ export function buildGraphData({ posts, services, links }) {
       service?.service_name || link.service_id,
     );
     addEdge(edges, edgeKeys, link.post_id, link.service_id, "match", link.score);
+
+    if (service?.organization) {
+      const organizationId = `org:${service.organization}`;
+
+      addNode(nodes, nodeIds, organizationId, "organization", service.organization);
+      addEdge(edges, edgeKeys, link.service_id, organizationId, "provides");
+    }
+  }
+
+  for (const link of jobLinks) {
+    const job = jobMap[link.posting_id];
+    const service = serviceMap[link.service_id];
+
+    addNode(
+      nodes,
+      nodeIds,
+      link.posting_id,
+      "job",
+      job?.title || link.posting_id,
+    );
+    addNode(
+      nodes,
+      nodeIds,
+      link.service_id,
+      "service",
+      service?.service_name || link.service_id,
+    );
+    addEdge(
+      edges,
+      edgeKeys,
+      link.posting_id,
+      link.service_id,
+      "job-match",
+      link.score,
+    );
 
     if (service?.organization) {
       const organizationId = `org:${service.organization}`;

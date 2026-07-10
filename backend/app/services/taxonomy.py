@@ -10,12 +10,19 @@ CATEGORY_ALIASES = {
         "meal assistance",
         "meal delivery",
         "meals on wheels",
+        "deliver meals",
+        "meal",
+        "meals",
     },
     "home_care": {
         "home care",
         "in-home care",
         "in home care",
         "home care assistance",
+        "in-home assistance",
+        "home care assistant",
+        "community support worker",
+        "daily living",
     },
 }
 

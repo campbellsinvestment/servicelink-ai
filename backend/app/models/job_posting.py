@@ -25,4 +25,5 @@ class NormalizedJobPosting(BaseModel):
     skills: list[str] = Field(default_factory=list)
     organizations: list[str] = Field(default_factory=list)
     locations: list[str] = Field(default_factory=list)
+    service_categories: list[str] = Field(default_factory=list)
     keywords: list[str] = Field(default_factory=list)

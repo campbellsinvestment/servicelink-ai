@@ -115,6 +115,19 @@ Example
 
 ---
 
+## Job Links
+
+GET
+
+```
+/job-links
+```
+
+Returns explainable links between enriched job postings and normalized
+community services.
+
+---
+
 ## Reddit Post Service Links
 
 GET
@@ -129,6 +142,24 @@ Example
 
 ```
 /social-posts/reddit/reddit-r001/service-links
+```
+
+---
+
+## Job Posting Service Links
+
+GET
+
+```
+/job-postings/{posting_id}/service-links
+```
+
+Returns service links for a single job posting.
+
+Example
+
+```
+/job-postings/ziprecruiter-z003/service-links
 ```
 
 ---

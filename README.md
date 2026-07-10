@@ -63,6 +63,7 @@ ACIE explores how software can:
 ## Entity Linking
 
 - Deterministic social-post-to-service linking
+- Deterministic job-posting-to-service linking
 - Explainable match reasons and scores
 - Category and geography alignment rules
 - Keyword overlap and source-trust scoring
@@ -207,6 +208,7 @@ No personal information is collected, scraped, or redistributed.
 - Webpack dashboard scaffold
 - D3.js knowledge graph visualization
 - GitHub Pages demo deployment
+- Job posting enrichment and service linking
 
 ### In Progress
 

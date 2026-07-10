@@ -4,8 +4,8 @@ import { renderStatusMessage } from "../components.js";
 
 let destroyGraph = null;
 
-export function renderGraphPage({ posts, services, links }) {
-  const graphData = buildGraphData({ posts, services, links });
+export function renderGraphPage({ posts, jobs, services, links, jobLinks }) {
+  const graphData = buildGraphData({ posts, jobs, services, links, jobLinks });
 
   if (!graphData.nodes.length) {
     return `
@@ -16,17 +16,25 @@ export function renderGraphPage({ posts, services, links }) {
   }
 
   const matchCount = graphData.links.filter((link) => link.type === "match").length;
+  const jobMatchCount = graphData.links.filter(
+    (link) => link.type === "job-match",
+  ).length;
 
   return `
     <section class="graph-page">
       <p class="page-intro">
-        Read left to right: Reddit posts link to community services, which are
-        provided by organizations. ${matchCount} scored matches in the demo data.
+        Read left to right: Reddit posts and job postings link to community
+        services, which are provided by organizations.
+        ${matchCount} post matches and ${jobMatchCount} job matches in the demo.
       </p>
       <div class="graph-legend" aria-label="Graph legend">
         <span class="graph-legend__item">
           <span class="graph-legend__line graph-legend__line--match"></span>
-          Matched
+          Post match
+        </span>
+        <span class="graph-legend__item">
+          <span class="graph-legend__line graph-legend__line--job-match"></span>
+          Job match
         </span>
         <span class="graph-legend__item">
           <span class="graph-legend__line graph-legend__line--provides"></span>
@@ -45,7 +53,10 @@ export function renderGraphPage({ posts, services, links }) {
   `;
 }
 
-export function mountGraphPage(container, { posts, services, links }) {
+export function mountGraphPage(
+  container,
+  { posts, jobs, services, links, jobLinks },
+) {
   if (destroyGraph) {
     destroyGraph();
     destroyGraph = null;
@@ -58,6 +69,6 @@ export function mountGraphPage(container, { posts, services, links }) {
     return;
   }
 
-  const graphData = buildGraphData({ posts, services, links });
+  const graphData = buildGraphData({ posts, jobs, services, links, jobLinks });
   destroyGraph = renderForceGraph(graphRoot, graphData, detailPanel);
 }

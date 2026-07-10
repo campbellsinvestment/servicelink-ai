@@ -39,6 +39,7 @@ Responsible for
 - service categorization
 - social post enrichment
 - organization name extraction
+- job posting enrichment and service linking
 - deterministic entity linking between posts and services
 - explainable recommendation scoring
 
@@ -47,10 +48,9 @@ Responsible for
 FastAPI exposes normalized data for downstream consumers.
 
 The frontend includes a D3 knowledge graph that visualizes entity links
-between Reddit posts, community services, and organizations.
+between Reddit posts, job postings, community services, and organizations.
 
 Future work includes
 
 - semantic search
 - conversational AI
-- job-to-service linking

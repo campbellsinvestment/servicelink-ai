@@ -33,6 +33,34 @@ def test_entity_links_endpoint() -> None:
     assert links[0]["score"] > 0
 
 
+def test_job_links_endpoint() -> None:
+    response = client.get("/job-links")
+
+    assert response.status_code == 200
+
+    links = response.json()
+
+    assert len(links) == 4
+    assert links[0]["score"] >= links[-1]["score"]
+    assert links[0]["match_reasons"]
+
+
+def test_job_posting_service_links_endpoint() -> None:
+    response = client.get(
+        "/job-postings/ziprecruiter-z003/service-links",
+    )
+
+    assert response.status_code == 200
+
+    links = response.json()
+
+    assert len(links) == 2
+    assert {link["service_id"] for link in links} == {
+        "community-A103",
+        "informalberta-3",
+    }
+
+
 def test_reddit_post_service_links_endpoint() -> None:
     response = client.get("/social-posts/reddit/reddit-r001/service-links")
 

@@ -62,11 +62,15 @@ export function fetchRecommendations() {
 export function fetchGraphData() {
   return Promise.all([
     fetchJson("/social-posts/reddit"),
+    fetchJson("/job-postings"),
     fetchJson("/services"),
     fetchJson("/entity-links"),
-  ]).then(([posts, services, links]) => ({
+    fetchJson("/job-links"),
+  ]).then(([posts, jobs, services, links, jobLinks]) => ({
     posts,
+    jobs,
     services,
     links,
+    jobLinks,
   }));
 }

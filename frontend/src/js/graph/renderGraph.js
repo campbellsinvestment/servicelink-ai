@@ -2,6 +2,7 @@ import * as d3 from "d3";
 
 const TYPE_LABELS = {
   post: "Post",
+  job: "Job",
   service: "Service",
   organization: "Organization",
 };
@@ -11,6 +12,11 @@ const NODE_STYLES = {
     fill: "#eef6fb",
     stroke: "#7eb8d4",
     text: "#334155",
+  },
+  job: {
+    fill: "#edf7f0",
+    stroke: "#7db899",
+    text: "#2f4f3a",
   },
   service: {
     fill: "#005072",
@@ -29,7 +35,13 @@ const LINK_STYLES = {
     color: "#005072",
     width: 2,
     dash: null,
-    label: "Matched",
+    label: "Post match",
+  },
+  "job-match": {
+    color: "#2f7a4b",
+    width: 2,
+    dash: null,
+    label: "Job match",
   },
   provides: {
     color: "#b8b8b8",
@@ -45,7 +57,11 @@ const LINK_STYLES = {
   },
 };
 
-const COLUMN_ORDER = ["post", "service", "organization"];
+const COLUMN_ORDER = ["post", "job", "service", "organization"];
+
+function isScoredMatch(type) {
+  return type === "match" || type === "job-match";
+}
 
 function resolveLinks(nodes, links) {
   const nodesById = new Map(nodes.map((node) => [node.id, node]));
@@ -63,9 +79,10 @@ function layoutNodes(nodes, width, height) {
   const top = 56;
   const bottom = 28;
   const columnX = {
-    post: width * 0.17,
-    service: width * 0.5,
-    organization: width * 0.83,
+    post: width * 0.11,
+    job: width * 0.34,
+    service: width * 0.61,
+    organization: width * 0.88,
   };
 
   for (const type of COLUMN_ORDER) {
@@ -117,8 +134,14 @@ function describeNode(node, links) {
   const matches = links.filter(
     (link) => link.type === "match" && link.source.id === node.id,
   );
+  const jobMatches = links.filter(
+    (link) => link.type === "job-match" && link.source.id === node.id,
+  );
   const matchedBy = links.filter(
     (link) => link.type === "match" && link.target.id === node.id,
+  );
+  const matchedByJobs = links.filter(
+    (link) => link.type === "job-match" && link.target.id === node.id,
   );
   const provides = links.filter(
     (link) => link.type === "provides" && link.source.id === node.id,
@@ -159,12 +182,30 @@ function describeNode(node, links) {
     return parts.join(" · ");
   }
 
+  if (node.type === "job") {
+    if (!jobMatches.length) {
+      return `${node.fullLabel} has no linked services yet.`;
+    }
+
+    const matchText = jobMatches
+      .map((link) => `${link.target.fullLabel} (${link.score})`)
+      .join(", ");
+
+    return `Matched services: ${matchText}`;
+  }
+
   if (node.type === "service") {
     const parts = [];
 
     if (matchedBy.length) {
       parts.push(
         `Matched by ${matchedBy.length} post${matchedBy.length === 1 ? "" : "s"}`,
+      );
+    }
+
+    if (matchedByJobs.length) {
+      parts.push(
+        `Matched by ${matchedByJobs.length} job${matchedByJobs.length === 1 ? "" : "s"}`,
       );
     }
 
@@ -195,8 +236,8 @@ function describeNode(node, links) {
 export function renderForceGraph(container, graphData, detailPanel) {
   container.replaceChildren();
 
-  const width = container.clientWidth || 860;
-  const height = 520;
+  const width = container.clientWidth || 960;
+  const height = 560;
   const nodes = graphData.nodes.map((node) => ({ ...node }));
   const links = resolveLinks(nodes, graphData.links);
 
@@ -207,7 +248,7 @@ export function renderForceGraph(container, graphData, detailPanel) {
     .append("svg")
     .attr("viewBox", [0, 0, width, height])
     .attr("role", "img")
-    .attr("aria-label", "Knowledge graph of posts, services, and organizations");
+    .attr("aria-label", "Knowledge graph of posts, jobs, services, and organizations");
 
   svg
     .append("defs")
@@ -223,10 +264,25 @@ export function renderForceGraph(container, graphData, detailPanel) {
     .attr("d", "M0,-4L8,0L0,4")
     .attr("fill", "#005072");
 
+  svg
+    .select("defs")
+    .append("marker")
+    .attr("id", "graph-arrow-job")
+    .attr("viewBox", "0 -4 8 8")
+    .attr("refX", 7)
+    .attr("refY", 0)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M0,-4L8,0L0,4")
+    .attr("fill", "#2f7a4b");
+
   const columnTitles = [
-    { label: "Reddit posts", x: width * 0.17 },
-    { label: "Community services", x: width * 0.5 },
-    { label: "Organizations", x: width * 0.83 },
+    { label: "Reddit posts", x: width * 0.11 },
+    { label: "Job postings", x: width * 0.34 },
+    { label: "Community services", x: width * 0.61 },
+    { label: "Organizations", x: width * 0.88 },
   ];
 
   svg
@@ -255,13 +311,23 @@ export function renderForceGraph(container, graphData, detailPanel) {
     .attr("stroke-width", (datum) => LINK_STYLES[datum.type].width)
     .attr("stroke-dasharray", (datum) => LINK_STYLES[datum.type].dash || null)
     .attr("stroke-opacity", 0.85)
-    .attr("marker-end", (datum) => (datum.type === "match" ? "url(#graph-arrow)" : null))
+    .attr("marker-end", (datum) => {
+      if (datum.type === "match") {
+        return "url(#graph-arrow)";
+      }
+
+      if (datum.type === "job-match") {
+        return "url(#graph-arrow-job)";
+      }
+
+      return null;
+    })
     .attr("d", linkPath);
 
   link.append("title").text((datum) => {
     const style = LINK_STYLES[datum.type];
 
-    if (datum.type === "match") {
+    if (isScoredMatch(datum.type)) {
       return `${style.label}: score ${datum.score}`;
     }
 
@@ -270,7 +336,7 @@ export function renderForceGraph(container, graphData, detailPanel) {
 
   labelGroup
     .selectAll("text")
-    .data(links.filter((datum) => datum.type === "match"))
+    .data(links.filter((datum) => isScoredMatch(datum.type)))
     .join("text")
     .attr("class", "graph-link-score")
     .attr("text-anchor", "middle")
