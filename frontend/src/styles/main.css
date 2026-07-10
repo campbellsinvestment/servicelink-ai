@@ -1,0 +1,196 @@
+@import "@abgov/web-components/index.css";
+@import "@abgov/design-tokens/dist/tokens.css";
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--goa-font-family-sans, sans-serif);
+  background: var(--goa-color-greyscale-100, #f1f1f1);
+  color: var(--goa-color-text, #333333);
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-header {
+  background: var(--goa-color-brand-700, #005072);
+  color: #ffffff;
+  padding: 1.5rem 0;
+}
+
+.app-header__inner,
+.app-main__inner {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.app-header__title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.app-header__subtitle {
+  margin: 0.5rem 0 0;
+  max-width: 48rem;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
+.app-nav {
+  background: #ffffff;
+  border-bottom: 1px solid var(--goa-color-greyscale-200, #dcdcdc);
+}
+
+.app-nav__inner {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+}
+
+.app-nav__button {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--goa-color-brand-700, #005072);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.app-nav__button:hover,
+.app-nav__button:focus-visible {
+  background: var(--goa-color-greyscale-100, #f1f1f1);
+}
+
+.app-nav__button.is-active {
+  background: var(--goa-color-brand-700, #005072);
+  color: #ffffff;
+}
+
+.app-main {
+  padding: 1.5rem 0 3rem;
+}
+
+.page-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.page-description {
+  margin: 0 0 1.5rem;
+  max-width: 48rem;
+  line-height: 1.6;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card,
+.panel,
+.recommendation-card {
+  background: #ffffff;
+  border: 1px solid var(--goa-color-greyscale-200, #dcdcdc);
+  border-radius: 0.25rem;
+  padding: 1rem;
+}
+
+.stat-card__label {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--goa-color-text-secondary, #666666);
+}
+
+.stat-card__value {
+  margin: 0.35rem 0 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--goa-color-brand-700, #005072);
+}
+
+.panel + .panel {
+  margin-top: 1rem;
+}
+
+.panel__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+}
+
+.recommendation-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.recommendation-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.recommendation-card__title {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.recommendation-card__score {
+  margin: 0;
+  font-weight: 700;
+  color: var(--goa-color-brand-700, #005072);
+  white-space: nowrap;
+}
+
+.recommendation-card__meta {
+  margin: 0.5rem 0 0;
+  color: var(--goa-color-text-secondary, #666666);
+}
+
+.reason-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reason-list__item {
+  background: var(--goa-color-greyscale-100, #f1f1f1);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.status-message {
+  margin: 0;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid var(--goa-color-greyscale-200, #dcdcdc);
+  border-radius: 0.25rem;
+}
+
+.status-message--error {
+  border-color: #b42318;
+  color: #b42318;
+}
+
+@media (max-width: 640px) {
+  .recommendation-card__header {
+    flex-direction: column;
+  }
+}
