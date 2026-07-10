@@ -1,8 +1,15 @@
 """Deterministic entity linking between social posts and services."""
 
+from pathlib import Path
+
 from backend.app.models.entity_link import ServiceLink
 from backend.app.models.service import NormalizedService
 from backend.app.models.social_post import NormalizedSocialPost
+from backend.app.services.service_importer import (
+    import_community_services,
+    import_informalberta_services,
+)
+from backend.app.services.social_importer import import_reddit_posts
 
 
 CATEGORY_MATCH_SCORE = 10
@@ -71,3 +78,40 @@ def link_posts_to_services(
         links.extend(link_post_to_services(post, services))
 
     return links
+
+
+def load_community_services(project_root: Path) -> list[NormalizedService]:
+    informalberta_path = (
+        project_root
+        / "datasets"
+        / "raw"
+        / "services"
+        / "informalberta_services.csv"
+    )
+    community_path = (
+        project_root
+        / "datasets"
+        / "raw"
+        / "services"
+        / "community_services.csv"
+    )
+
+    return [
+        *import_informalberta_services(informalberta_path),
+        *import_community_services(community_path),
+    ]
+
+
+def load_reddit_posts(project_root: Path) -> list[NormalizedSocialPost]:
+    reddit_path = (
+        project_root / "datasets" / "raw" / "social" / "reddit_posts.csv"
+    )
+
+    return import_reddit_posts(reddit_path)
+
+
+def build_service_links(project_root: Path) -> list[ServiceLink]:
+    posts = load_reddit_posts(project_root)
+    services = load_community_services(project_root)
+
+    return link_posts_to_services(posts, services)

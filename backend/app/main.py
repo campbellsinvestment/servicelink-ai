@@ -16,6 +16,8 @@ from backend.app.services.job_importer import (
     import_ziprecruiter_jobs,
 )
 
+from backend.app.services.entity_linking import build_service_links
+
 app = FastAPI(
     title="Alberta Community Intelligence Engine",
     description=(
@@ -183,3 +185,23 @@ def get_job_posting_summary() -> dict[str, object]:
         "sources": sources,
         "locations": locations,
     }
+
+
+@app.get("/entity-links")
+def get_entity_links() -> list[dict]:
+    links = build_service_links(PROJECT_ROOT)
+
+    return [link.model_dump() for link in links]
+
+
+@app.get("/social-posts/reddit/{post_id}/service-links")
+def get_reddit_post_service_links(post_id: str) -> list[dict]:
+    links = build_service_links(PROJECT_ROOT)
+
+    filtered_links = [
+        link
+        for link in links
+        if link.post_id == post_id
+    ]
+
+    return [link.model_dump() for link in filtered_links]
