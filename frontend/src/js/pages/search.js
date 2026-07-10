@@ -7,7 +7,7 @@ import {
 const EXAMPLE_QUERIES = [
   "I need rides to medical appointments in Edmonton",
   "Where can I get meal delivery in Stony Plain?",
-  "Home care support in Spruce Grove",
+  "help getting around town for medical visits",
 ];
 
 function escapeHtml(value) {

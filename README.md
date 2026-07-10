@@ -86,6 +86,7 @@ ACIE explores how software can:
 
 - Natural-language service questions via `/search`
 - Lexical intent extraction for category and city
+- TF-IDF semantic similarity scoring
 - Ranked, explainable answers in the dashboard Search tab
 
 ## REST API
@@ -218,14 +219,15 @@ No personal information is collected, scraped, or redistributed.
 - Job posting enrichment and service linking
 - Docker Compose local stack
 - Conversational search
+- TF-IDF semantic similarity search
 
 ### In Progress
 
-- Semantic search
+- LLM-assisted entity resolution
 
 ### Planned
 
-- LLM-assisted entity resolution
+- Embedding-based semantic search
 - Geographic proximity scoring
 - Interactive dashboard enhancements
 

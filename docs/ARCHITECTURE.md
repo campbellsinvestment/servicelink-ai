@@ -43,6 +43,7 @@ Responsible for
 - deterministic entity linking between posts and services
 - explainable recommendation scoring
 - conversational search over community services
+- TF-IDF semantic similarity scoring
 
 ## API Layer
 
@@ -53,5 +54,5 @@ between Reddit posts, job postings, community services, and organizations.
 
 Future work includes
 
-- semantic search
+- embedding-based semantic search
 - LLM-assisted conversational agents

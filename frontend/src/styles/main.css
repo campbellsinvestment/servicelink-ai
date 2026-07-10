@@ -368,6 +368,11 @@ body {
   background: #faf6ef;
 }
 
+.tag--semantic {
+  border-color: #c5d9c8;
+  background: #f1f7f2;
+}
+
 .status-message {
   margin: 0;
   font-size: 0.9375rem;

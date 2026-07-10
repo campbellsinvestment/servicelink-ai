@@ -38,6 +38,14 @@ export function parseMatchReasons(reasons) {
         type: "organization",
         value: reason.slice("organization:".length),
       });
+      continue;
+    }
+
+    if (reason.startsWith("semantic:")) {
+      tags.push({
+        type: "semantic",
+        value: `similarity ${reason.slice("semantic:".length)}`,
+      });
     }
   }
 

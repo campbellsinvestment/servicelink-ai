@@ -173,8 +173,8 @@ GET
 ```
 
 Interprets a natural-language question, extracts service categories and
-locations, and returns ranked community-service matches with an
-explainable answer.
+locations, ranks community-service matches with lexical rules plus TF-IDF
+semantic similarity, and returns an explainable answer.
 
 Optional query parameter:
 

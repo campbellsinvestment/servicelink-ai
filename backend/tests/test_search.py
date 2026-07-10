@@ -31,11 +31,17 @@ def test_search_services_returns_ranked_edmonton_transportation() -> None:
     assert "Senior Transportation" in response.answer or "Transportation" in response.answer
 
 
-def test_search_services_returns_empty_for_unrelated_query() -> None:
+def test_search_services_uses_semantic_fallback_without_category() -> None:
     response = search_services(
         PROJECT_ROOT,
-        "Looking for a warehouse job near the airport",
+        "help getting around town for medical visits",
     )
 
-    assert response.results == []
-    assert "could not find" in response.answer.lower() or "Try asking" in response.answer
+    assert response.interpretation.categories == []
+    assert response.results
+    assert any(
+        "semantic:" in reason
+        for result in response.results
+        for reason in result.match_reasons
+    )
+    assert response.results[0].category == "transportation"

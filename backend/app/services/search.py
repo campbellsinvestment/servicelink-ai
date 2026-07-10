@@ -21,6 +21,11 @@ from backend.app.services.scoring import (
     find_keyword_overlap_from_text,
     source_trust_bonus,
 )
+from backend.app.services.semantic import (
+    SEMANTIC_MATCH_THRESHOLD,
+    semantic_bonus,
+    semantic_similarity_scores,
+)
 
 
 def interpret_query(query: str) -> InterpretedQuery:
@@ -44,7 +49,7 @@ def interpret_query(query: str) -> InterpretedQuery:
         parts.append(f"matching terms: {', '.join(keywords[:5])}")
 
     if not parts:
-        summary = "No clear service category or location detected."
+        summary = "No clear service category or location detected; using semantic similarity."
     else:
         summary = " ".join(parts)
         summary = summary[0].upper() + summary[1:] + "."
@@ -61,8 +66,12 @@ def interpret_query(query: str) -> InterpretedQuery:
 def score_service_for_query(
     query: InterpretedQuery,
     service: NormalizedService,
+    *,
+    semantic_similarity: float = 0.0,
 ) -> tuple[int, list[str]] | None:
     """Score one service against an interpreted conversational query."""
+
+    has_lexical_filters = bool(query.categories or query.locations)
 
     if query.categories and service.category not in query.categories:
         return None
@@ -99,7 +108,16 @@ def score_service_for_query(
         score += keyword_score
         match_reasons.append(f"keywords:{','.join(shared_keywords)}")
 
+    semantic_score, semantic_reason = semantic_bonus(semantic_similarity)
+
+    if semantic_reason:
+        score += semantic_score
+        match_reasons.append(semantic_reason)
+
     if not match_reasons:
+        return None
+
+    if not has_lexical_filters and semantic_similarity < SEMANTIC_MATCH_THRESHOLD:
         return None
 
     source_score, source_reason = source_trust_bonus(service)
@@ -153,10 +171,15 @@ def search_services(
 
     interpretation = interpret_query(query)
     services = load_community_services(project_root)
+    similarities = semantic_similarity_scores(interpretation.query, services)
     scored: list[tuple[int, list[str], NormalizedService]] = []
 
     for service in services:
-        result = score_service_for_query(interpretation, service)
+        result = score_service_for_query(
+            interpretation,
+            service,
+            semantic_similarity=similarities.get(service.service_id, 0.0),
+        )
 
         if result is None:
             continue
