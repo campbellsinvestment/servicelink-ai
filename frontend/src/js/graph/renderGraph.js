@@ -298,7 +298,6 @@ export function renderForceGraph(container, graphData, detailPanel) {
     .text((datum) => datum.label);
 
   const linkGroup = svg.append("g").attr("class", "graph-links");
-  const labelGroup = svg.append("g").attr("class", "graph-link-labels");
   const nodeGroup = svg.append("g").attr("class", "graph-nodes");
 
   const link = linkGroup
@@ -333,16 +332,6 @@ export function renderForceGraph(container, graphData, detailPanel) {
 
     return style.label;
   });
-
-  labelGroup
-    .selectAll("text")
-    .data(links.filter((datum) => isScoredMatch(datum.type)))
-    .join("text")
-    .attr("class", "graph-link-score")
-    .attr("text-anchor", "middle")
-    .attr("x", (datum) => (datum.source.x + datum.target.x) / 2)
-    .attr("y", (datum) => (datum.source.y + datum.target.y) / 2 - 8)
-    .text((datum) => datum.score);
 
   const node = nodeGroup
     .selectAll("g")

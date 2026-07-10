@@ -480,13 +480,6 @@ body {
   opacity: 0.12;
 }
 
-.graph-link-score {
-  font-size: 0.625rem;
-  font-weight: 700;
-  fill: var(--acie-brand);
-  pointer-events: none;
-}
-
 .graph-detail {
   margin: 0;
   min-height: 2.75rem;
