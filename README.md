@@ -160,12 +160,13 @@ No personal information is collected, scraped, or redistributed.
 - NumPy
 - Pydantic
 
-### Frontend (planned)
+### Frontend
 
 - JavaScript
-- Bootstrap
-- D3.js
 - Webpack
+- Government of Alberta Design System
+- Bootstrap-inspired layout tokens
+- D3.js (planned)
 
 ### Development
 
@@ -194,11 +195,12 @@ No personal information is collected, scraped, or redistributed.
 - GitHub Actions CI
 - Explainable recommendation scoring
 - Organization name extraction
+- Webpack dashboard scaffold
 
 ### In Progress
 
+- D3.js knowledge graph visualization
 - Conversational search
-- Interactive D3.js visualization
 - Knowledge graph generation
 
 ### Planned

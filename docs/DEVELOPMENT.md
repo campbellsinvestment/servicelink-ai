@@ -2,9 +2,22 @@
 
 ## Running
 
+Backend API:
+
 ```bash
 uvicorn backend.app.main:app --reload
 ```
+
+Frontend dashboard:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The API runs on `http://localhost:8000`. The dashboard runs on
+`http://localhost:8080`.
 
 ## Testing
 
@@ -31,6 +44,10 @@ backend/
         importers/
         models/
         services/
+    tests/
+
+frontend/
+    src/
 
 datasets/
     raw/
