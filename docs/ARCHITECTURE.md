@@ -38,6 +38,7 @@ Responsible for
 - keyword extraction
 - service categorization
 - social post enrichment
+- organization name extraction
 - deterministic entity linking between posts and services
 - explainable recommendation scoring
 

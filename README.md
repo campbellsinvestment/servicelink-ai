@@ -52,6 +52,7 @@ ACIE explores how software can:
 - Rule-based keyword extraction
 - Service category identification
 - Social post enrichment during import
+- Organization name extraction from service registry
 - Employment classification
 - Technology skill detection
 - Healthcare and senior-support classification
@@ -62,6 +63,7 @@ ACIE explores how software can:
 - Explainable match reasons and scores
 - Category and geography alignment rules
 - Keyword overlap and source-trust scoring
+- Organization mention scoring
 - REST endpoints for linked recommendations
 
 ## Recommendations
@@ -191,10 +193,10 @@ No personal information is collected, scraped, or redistributed.
 - API integration tests
 - GitHub Actions CI
 - Explainable recommendation scoring
+- Organization name extraction
 
 ### In Progress
 
-- Organization name extraction
 - Conversational search
 - Interactive D3.js visualization
 - Knowledge graph generation

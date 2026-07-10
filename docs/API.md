@@ -162,7 +162,8 @@ Example
       "category:home_care",
       "city:Spruce Grove",
       "keywords:care,home,seniors",
-      "source:InformAlberta"
+      "source:InformAlberta",
+      "organization:Alberta Wellness Network"
     ]
   }
 ]
