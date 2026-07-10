@@ -1,71 +1,201 @@
 # ServiceLink AI
 
-ServiceLink AI is an independent research-software prototype for exploring
-how inconsistent community-service records and social-platform posts can be
-cleaned, standardized, connected, searched and visualized.
+ServiceLink AI is an independent research software prototype exploring how heterogeneous community-service records and social-platform data can be standardized, analyzed, and linked through modern software engineering and AI techniques.
 
-The project was inspired by publicly described software-engineering challenges
-associated with the University of Alberta SoDa-TaP research project.
+The project demonstrates practical approaches to data normalization, multi-source ingestion, lexical analysis, REST API design, and entity linking using publicly available technologies. It was inspired by publicly described research challenges associated with the University of Alberta's SoDa-TaP project.
 
-This repository is independent. It is not affiliated with the University of
-Alberta, SoDa-TaP, AVOID, InformAlberta or the Bridging Divides program, and it
-does not use their private code or research datasets.
+This repository is an independent educational and research prototype. It is **not affiliated with** the University of Alberta, SoDa-TaP, AVOID, InformAlberta, or the Bridging Divides program, and does **not** contain any private source code, datasets, or intellectual property.
 
-## Initial goals
+---
 
-- Import community-service records from inconsistent CSV schemas
-- Normalize records into a shared data model
-- Import Reddit and job-posting CSV files
-- Extract organizations, locations and service categories
-- Link social posts to potentially relevant services
-- Provide REST API access to the normalized data
-- Build an interactive Bootstrap and D3.js interface
-- Add a conversational search experience
-- Validate the pipeline with automated tests
+# Project Vision
 
-## Implemented features
+Many organizations maintain valuable community information across disconnected systems with inconsistent data structures. At the same time, people express real needs through online platforms such as Reddit and employment websites.
 
-- Shared Pydantic models for normalized records
-- Reusable object-oriented CSV adapter architecture
-- Community-service ingestion from inconsistent CSV schemas
-- Category and phone-number normalization
-- Reddit post ingestion and timestamp normalization
-- REST API endpoints for services and social posts
-- Automated unit and integration tests
-- Indeed and ZipRecruiter job-posting ingestion
-- Shared normalized job-posting model
-- Multi-source job aggregation endpoint
-- Source-specific adapters using a common ingestion architecture
+ServiceLink AI explores how software can:
 
-## Current ingestion architecture
+- normalize inconsistent datasets
+- classify and enrich text using lexical analysis
+- connect people with relevant services
+- expose standardized data through modern APIs
+- provide a foundation for conversational search and AI-assisted decision support
 
-Each data source has its own adapter that converts a
-source-specific CSV schema into a shared Pydantic model.
+---
 
-Supported sources:
+# Current Features
 
-- InformAlberta-style service records
-- Community-service records
-- Reddit posts
+## Data Ingestion
+
+- Import community-service records from multiple CSV schemas
+- Import Reddit discussion datasets
+- Import Indeed job postings
+- Import ZipRecruiter job postings
+- Reusable object-oriented adapter architecture for new data sources
+
+## Data Normalization
+
+- Shared Pydantic models
+- Alberta geography normalization
+- Phone number normalization
+- Category normalization
+- Timestamp normalization
+- Canonical job and service schemas
+
+## Lexical Analysis
+
+- Configurable dictionary-based classification
+- Rule-based keyword extraction
+- Service category identification
+- Employment classification
+- Technology skill detection
+- Healthcare and senior-support classification
+
+## REST API
+
+- FastAPI
+- OpenAPI documentation
+- Aggregated service endpoints
+- Reddit endpoints
+- Job posting endpoints
+- Summary endpoints
+
+## Software Engineering
+
+- Object-oriented architecture
+- Automated unit tests
+- Integration tests
+- Modular service layer
+- Reusable import pipeline
+- Type-safe Pydantic models
+
+---
+
+# Current Architecture
+
+```
+                CSV Sources
+                     │
+     ┌───────────────┼───────────────┐
+     │               │               │
+InformAlberta    Reddit        Job Boards
+Community Data                 (Indeed / ZipRecruiter)
+     │               │               │
+     └───────────────┼───────────────┘
+                     │
+            CSV Adapter Layer
+                     │
+             Data Validation
+                     │
+          Data Normalization
+                     │
+         Geography Alignment
+                     │
+          Lexical Analysis
+                     │
+          Entity Enrichment
+                     │
+              FastAPI REST API
+                     │
+        Future AI / Search Layer
+```
+
+---
+
+# Supported Sources
+
+Current adapters include:
+
+- InformAlberta-style service datasets
+- Community-service datasets
+- Reddit discussion datasets
 - Indeed job postings
 - ZipRecruiter job postings
 
-## Demonstration data
+The adapter architecture allows new sources to be added with minimal changes to the ingestion pipeline.
 
-All social-platform and community-service records currently
-included in this repository are fictional demonstration data.
+---
 
-The project does not currently scrape or redistribute real
-personal information from social-platform users.
+# Demonstration Data
 
-## Technology
+All datasets currently included in this repository are fictional demonstration records created for software engineering purposes.
+
+No personal information is collected, scraped, or redistributed.
+
+---
+
+# Technology Stack
+
+### Backend
 
 - Python
 - FastAPI
 - Pandas
 - NumPy
+- Pydantic
+
+### Frontend (planned)
+
 - JavaScript
 - Bootstrap
 - D3.js
 - Webpack
+
+### Development
+
 - pytest
+- Git
+- GitHub
+- VS Code
+- Cursor
+- GitHub Copilot
+
+---
+
+# Roadmap
+
+### Completed
+
+- Multi-source CSV ingestion
+- Shared data models
+- Adapter architecture
+- REST API
+- Geography normalization
+- Lexical analysis
+- Automated testing
+
+### In Progress
+
+- Entity linking between services and social posts
+- Conversational search
+- Interactive D3.js visualization
+- Knowledge graph generation
+
+### Planned
+
+- LLM-assisted entity resolution
+- Semantic search
+- Recommendation engine
+- Geographic proximity scoring
+- Service recommendation API
+- Interactive dashboard
+
+---
+
+# Research Objectives
+
+This project explores practical approaches to:
+
+- heterogeneous data integration
+- AI-assisted software engineering
+- information retrieval
+- lexical analysis
+- entity resolution
+- community-service discovery
+- explainable recommendation systems
+- conversational interfaces
+
+---
+
+# License
+
+This repository is intended for educational, research, and demonstration purposes.

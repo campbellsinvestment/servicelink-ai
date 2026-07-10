@@ -2,6 +2,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field
 
+from backend.app.models.geography import AlbertaLocation
+
 
 class NormalizedJobPosting(BaseModel):
     posting_id: str
@@ -11,7 +13,10 @@ class NormalizedJobPosting(BaseModel):
     title: str
     employer: str
     description: str
+
     location: str | None = None
+    geography: AlbertaLocation | None = None
+
     employment_type: str | None = None
     salary: str | None = None
     url: str | None = None

@@ -54,6 +54,8 @@ def test_indeed_adapter_imports_jobs() -> None:
     assert first_job.source == "Indeed"
     assert first_job.employer == "Alberta Distribution Ltd"
     assert first_job.location == "Edmonton, AB"
+    assert first_job.geography is not None
+    assert first_job.geography.city == "Edmonton"
 
 
 def test_ziprecruiter_adapter_imports_jobs() -> None:
@@ -73,7 +75,9 @@ def test_ziprecruiter_adapter_imports_jobs() -> None:
 
     assert first_job.posting_id == "ziprecruiter-z001"
     assert first_job.source == "ZipRecruiter"
-    assert first_job.location == "Stony Plain, Alberta"
+    assert first_job.location == "Stony Plain, AB"
+    assert first_job.geography is not None
+    assert first_job.geography.city == "Stony Plain"
 
 
 def test_indeed_adapter_rejects_missing_columns(

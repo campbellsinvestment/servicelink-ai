@@ -5,6 +5,10 @@ import pandas as pd
 from backend.app.importers.base import CSVAdapter
 from backend.app.models.job_posting import NormalizedJobPosting
 from backend.app.services.cleaning import clean_text
+from backend.app.services.geography import (
+    format_location,
+    normalize_alberta_location,
+)
 
 
 def parse_job_datetime(value: object) -> datetime | None:
@@ -52,6 +56,12 @@ class IndeedJobAdapter(CSVAdapter[NormalizedJobPosting]):
     ) -> NormalizedJobPosting:
         source_id = str(row["job_id"]).strip()
 
+        raw_location = combine_location(
+            row.get("city"),
+            row.get("province"),
+        )
+        geography = normalize_alberta_location(raw_location)
+
         return NormalizedJobPosting(
             posting_id=f"indeed-{source_id}",
             source="Indeed",
@@ -59,10 +69,8 @@ class IndeedJobAdapter(CSVAdapter[NormalizedJobPosting]):
             title=str(row["job_title"]).strip(),
             employer=str(row["company_name"]).strip(),
             description=str(row["job_description"]).strip(),
-            location=combine_location(
-                row.get("city"),
-                row.get("province"),
-            ),
+            location=format_location(geography) or raw_location,
+            geography=geography,
             employment_type=clean_text(row.get("job_type")),
             salary=clean_text(row.get("salary_text")),
             url=clean_text(row.get("job_url")),
@@ -88,6 +96,9 @@ class ZipRecruiterJobAdapter(
     ) -> NormalizedJobPosting:
         source_id = str(row["listing_id"]).strip()
 
+        raw_location = clean_text(row.get("location_name"))
+        geography = normalize_alberta_location(raw_location)
+
         return NormalizedJobPosting(
             posting_id=f"ziprecruiter-{source_id}",
             source="ZipRecruiter",
@@ -95,7 +106,8 @@ class ZipRecruiterJobAdapter(
             title=str(row["title"]).strip(),
             employer=str(row["employer"]).strip(),
             description=str(row["summary"]).strip(),
-            location=clean_text(row.get("location_name")),
+            location=format_location(geography) or raw_location,
+            geography=geography,
             employment_type=clean_text(
                 row.get("work_schedule")
             ),
