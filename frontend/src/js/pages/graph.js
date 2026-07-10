@@ -20,24 +20,27 @@ export function renderGraphPage({ posts, services, links }) {
   return `
     <section class="graph-page">
       <p class="page-intro">
-        ${graphData.nodes.length} entities and ${graphData.links.length} relationships
-        (${matchCount} post-to-service matches).
+        Read left to right: Reddit posts link to community services, which are
+        provided by organizations. ${matchCount} scored matches in the demo data.
       </p>
       <div class="graph-legend" aria-label="Graph legend">
         <span class="graph-legend__item">
-          <span class="graph-legend__swatch graph-legend__swatch--post"></span>
-          Post
+          <span class="graph-legend__line graph-legend__line--match"></span>
+          Matched
         </span>
         <span class="graph-legend__item">
-          <span class="graph-legend__swatch graph-legend__swatch--service"></span>
-          Service
+          <span class="graph-legend__line graph-legend__line--provides"></span>
+          Provided by
         </span>
         <span class="graph-legend__item">
-          <span class="graph-legend__swatch graph-legend__swatch--organization"></span>
-          Organization
+          <span class="graph-legend__line graph-legend__line--mentions"></span>
+          Mentions
         </span>
       </div>
       <div class="graph-panel" id="knowledge-graph"></div>
+      <p class="graph-detail" id="graph-detail">
+        Hover a node to see how it connects across the graph.
+      </p>
     </section>
   `;
 }
@@ -49,11 +52,12 @@ export function mountGraphPage(container, { posts, services, links }) {
   }
 
   const graphRoot = container.querySelector("#knowledge-graph");
+  const detailPanel = container.querySelector("#graph-detail");
 
   if (!graphRoot) {
     return;
   }
 
   const graphData = buildGraphData({ posts, services, links });
-  destroyGraph = renderForceGraph(graphRoot, graphData);
+  destroyGraph = renderForceGraph(graphRoot, graphData, detailPanel);
 }

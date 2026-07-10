@@ -397,51 +397,102 @@ body {
   gap: 0.45rem;
 }
 
-.graph-legend__swatch {
-  width: 0.75rem;
-  height: 0.75rem;
-  border-radius: 999px;
-  border: 1.5px solid transparent;
+.graph-legend__line {
+  width: 1.75rem;
+  height: 0;
+  border-top: 2px solid transparent;
 }
 
-.graph-legend__swatch--post {
-  background: #d6e8f3;
-  border-color: #7eb8d4;
+.graph-legend__line--match {
+  border-top-color: #005072;
 }
 
-.graph-legend__swatch--service {
-  background: #005072;
-  border-color: #003f5c;
+.graph-legend__line--provides {
+  border-top-color: #b8b8b8;
+  border-top-style: dashed;
 }
 
-.graph-legend__swatch--organization {
-  background: #faf6ef;
-  border-color: #c9a66b;
+.graph-legend__line--mentions {
+  border-top-color: #c9a66b;
+  border-top-style: dashed;
 }
 
 .graph-panel {
-  min-height: 480px;
+  min-height: 520px;
   padding: 0.75rem;
   background: var(--acie-bg);
   border: 1px solid var(--acie-border);
   border-radius: 0.25rem;
+  overflow-x: auto;
 }
 
 .graph-panel svg {
   display: block;
   width: 100%;
+  min-width: 720px;
   height: auto;
 }
 
-.graph-node__label {
+.graph-column-title {
   font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   fill: var(--acie-muted);
+}
+
+.graph-node {
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.graph-node.is-dimmed {
+  opacity: 0.28;
+}
+
+.graph-node__type {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.graph-node__label {
+  font-size: 0.6875rem;
+  font-weight: 600;
   pointer-events: none;
 }
 
 .graph-node--service .graph-node__label {
+  font-weight: 700;
+}
+
+.graph-link {
+  transition: opacity 0.15s ease;
+}
+
+.graph-link.is-dimmed {
+  opacity: 0.12;
+}
+
+.graph-link-score {
+  font-size: 0.625rem;
+  font-weight: 700;
   fill: var(--acie-brand);
-  font-weight: 600;
+  pointer-events: none;
+}
+
+.graph-detail {
+  margin: 0;
+  min-height: 2.75rem;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--acie-muted);
+  background: var(--acie-bg);
+  border: 1px solid var(--acie-border);
+  border-radius: 0.25rem;
 }
 
 @media (max-width: 720px) {

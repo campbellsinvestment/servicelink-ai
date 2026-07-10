@@ -1,65 +1,206 @@
 import * as d3 from "d3";
 
-const NODE_RADIUS = {
-  post: 10,
-  service: 12,
-  organization: 9,
+const TYPE_LABELS = {
+  post: "Post",
+  service: "Service",
+  organization: "Organization",
 };
 
-const NODE_COLORS = {
-  post: "#d6e8f3",
-  service: "#005072",
-  organization: "#faf6ef",
+const NODE_STYLES = {
+  post: {
+    fill: "#eef6fb",
+    stroke: "#7eb8d4",
+    text: "#334155",
+  },
+  service: {
+    fill: "#005072",
+    stroke: "#003f5c",
+    text: "#ffffff",
+  },
+  organization: {
+    fill: "#faf6ef",
+    stroke: "#c9a66b",
+    text: "#5c4a32",
+  },
 };
 
-const NODE_STROKES = {
-  post: "#7eb8d4",
-  service: "#003f5c",
-  organization: "#c9a66b",
+const LINK_STYLES = {
+  match: {
+    color: "#005072",
+    width: 2,
+    dash: null,
+    label: "Matched",
+  },
+  provides: {
+    color: "#b8b8b8",
+    width: 1,
+    dash: "4 3",
+    label: "Provided by",
+  },
+  mentions: {
+    color: "#c9a66b",
+    width: 1,
+    dash: "4 3",
+    label: "Mentions",
+  },
 };
 
-const LINK_COLORS = {
-  match: "#005072",
-  provides: "#999999",
-  mentions: "#c9a66b",
-};
+const COLUMN_ORDER = ["post", "service", "organization"];
 
-function drag(simulation) {
-  function dragStarted(event) {
-    if (!event.active) {
-      simulation.alphaTarget(0.3).restart();
-    }
+function resolveLinks(nodes, links) {
+  const nodesById = new Map(nodes.map((node) => [node.id, node]));
 
-    event.subject.fx = event.subject.x;
-    event.subject.fy = event.subject.y;
-  }
-
-  function dragged(event) {
-    event.subject.fx = event.x;
-    event.subject.fy = event.y;
-  }
-
-  function dragEnded(event) {
-    if (!event.active) {
-      simulation.alphaTarget(0);
-    }
-
-    event.subject.fx = null;
-    event.subject.fy = null;
-  }
-
-  return d3
-    .drag()
-    .on("start", dragStarted)
-    .on("drag", dragged)
-    .on("end", dragEnded);
+  return links
+    .map((link) => ({
+      ...link,
+      source: nodesById.get(link.source),
+      target: nodesById.get(link.target),
+    }))
+    .filter((link) => link.source && link.target);
 }
 
-export function renderForceGraph(container, graphData) {
+function layoutNodes(nodes, width, height) {
+  const top = 56;
+  const bottom = 28;
+  const columnX = {
+    post: width * 0.17,
+    service: width * 0.5,
+    organization: width * 0.83,
+  };
+
+  for (const type of COLUMN_ORDER) {
+    const group = nodes.filter((node) => node.type === type);
+    const step = (height - top - bottom) / Math.max(group.length + 1, 2);
+
+    group.forEach((node, index) => {
+      node.x = columnX[type];
+      node.y = top + step * (index + 1);
+    });
+  }
+}
+
+function measureNode(node) {
+  const nameLength = node.label.length;
+  const width = Math.min(Math.max(nameLength * 6.4 + 28, 112), 168);
+  const height = 44;
+
+  return { width, height };
+}
+
+function linkPath(link) {
+  const sourceX = link.source.x + measureNode(link.source).width / 2;
+  const targetX = link.target.x - measureNode(link.target).width / 2;
+  const sourceY = link.source.y;
+  const targetY = link.target.y;
+  const midX = (sourceX + targetX) / 2;
+
+  return `M${sourceX},${sourceY} C${midX},${sourceY} ${midX},${targetY} ${targetX},${targetY}`;
+}
+
+function getConnectedIds(nodeId, links) {
+  const connected = new Set([nodeId]);
+
+  for (const link of links) {
+    if (link.source.id === nodeId) {
+      connected.add(link.target.id);
+    }
+
+    if (link.target.id === nodeId) {
+      connected.add(link.source.id);
+    }
+  }
+
+  return connected;
+}
+
+function describeNode(node, links) {
+  const matches = links.filter(
+    (link) => link.type === "match" && link.source.id === node.id,
+  );
+  const matchedBy = links.filter(
+    (link) => link.type === "match" && link.target.id === node.id,
+  );
+  const provides = links.filter(
+    (link) => link.type === "provides" && link.source.id === node.id,
+  );
+  const providedBy = links.filter(
+    (link) => link.type === "provides" && link.target.id === node.id,
+  );
+  const mentions = links.filter(
+    (link) => link.type === "mentions" && link.source.id === node.id,
+  );
+  const mentionedBy = links.filter(
+    (link) => link.type === "mentions" && link.target.id === node.id,
+  );
+
+  if (node.type === "post") {
+    if (!matches.length && !mentions.length) {
+      return `${node.fullLabel} has no linked services yet.`;
+    }
+
+    const matchText = matches
+      .map((link) => `${link.target.fullLabel} (${link.score})`)
+      .join(", ");
+
+    const mentionText = mentions
+      .map((link) => link.target.fullLabel)
+      .join(", ");
+
+    const parts = [];
+
+    if (matchText) {
+      parts.push(`Matched services: ${matchText}`);
+    }
+
+    if (mentionText) {
+      parts.push(`Mentioned organizations: ${mentionText}`);
+    }
+
+    return parts.join(" · ");
+  }
+
+  if (node.type === "service") {
+    const parts = [];
+
+    if (matchedBy.length) {
+      parts.push(
+        `Matched by ${matchedBy.length} post${matchedBy.length === 1 ? "" : "s"}`,
+      );
+    }
+
+    if (providedBy.length) {
+      parts.push(`Provided by ${providedBy[0].source.fullLabel}`);
+    }
+
+    return parts.join(" · ") || node.fullLabel;
+  }
+
+  const parts = [];
+
+  if (provides.length) {
+    parts.push(
+      `Provides ${provides.length} service${provides.length === 1 ? "" : "s"}`,
+    );
+  }
+
+  if (mentionedBy.length) {
+    parts.push(
+      `Mentioned in ${mentionedBy.length} post${mentionedBy.length === 1 ? "" : "s"}`,
+    );
+  }
+
+  return parts.join(" · ") || node.fullLabel;
+}
+
+export function renderForceGraph(container, graphData, detailPanel) {
   container.replaceChildren();
 
   const width = container.clientWidth || 860;
-  const height = 480;
+  const height = 520;
+  const nodes = graphData.nodes.map((node) => ({ ...node }));
+  const links = resolveLinks(nodes, graphData.links);
+
+  layoutNodes(nodes, width, height);
 
   const svg = d3
     .select(container)
@@ -68,65 +209,153 @@ export function renderForceGraph(container, graphData) {
     .attr("role", "img")
     .attr("aria-label", "Knowledge graph of posts, services, and organizations");
 
-  const simulation = d3
-    .forceSimulation(graphData.nodes)
-    .force(
-      "link",
-      d3
-        .forceLink(graphData.links)
-        .id((node) => node.id)
-        .distance((link) => (link.type === "match" ? 120 : 70)),
-    )
-    .force("charge", d3.forceManyBody().strength(-280))
-    .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collision", d3.forceCollide().radius(24));
+  svg
+    .append("defs")
+    .append("marker")
+    .attr("id", "graph-arrow")
+    .attr("viewBox", "0 -4 8 8")
+    .attr("refX", 7)
+    .attr("refY", 0)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M0,-4L8,0L0,4")
+    .attr("fill", "#005072");
+
+  const columnTitles = [
+    { label: "Reddit posts", x: width * 0.17 },
+    { label: "Community services", x: width * 0.5 },
+    { label: "Organizations", x: width * 0.83 },
+  ];
+
+  svg
+    .append("g")
+    .attr("class", "graph-columns")
+    .selectAll("text")
+    .data(columnTitles)
+    .join("text")
+    .attr("class", "graph-column-title")
+    .attr("x", (datum) => datum.x)
+    .attr("y", 24)
+    .attr("text-anchor", "middle")
+    .text((datum) => datum.label);
 
   const linkGroup = svg.append("g").attr("class", "graph-links");
+  const labelGroup = svg.append("g").attr("class", "graph-link-labels");
   const nodeGroup = svg.append("g").attr("class", "graph-nodes");
 
   const link = linkGroup
-    .selectAll("line")
-    .data(graphData.links)
-    .join("line")
+    .selectAll("path")
+    .data(links)
+    .join("path")
     .attr("class", (datum) => `graph-link graph-link--${datum.type}`)
-    .attr("stroke", (datum) => LINK_COLORS[datum.type])
-    .attr("stroke-width", (datum) => (datum.type === "match" ? 2 : 1))
-    .attr("stroke-opacity", (datum) => (datum.type === "match" ? 0.75 : 0.55));
+    .attr("fill", "none")
+    .attr("stroke", (datum) => LINK_STYLES[datum.type].color)
+    .attr("stroke-width", (datum) => LINK_STYLES[datum.type].width)
+    .attr("stroke-dasharray", (datum) => LINK_STYLES[datum.type].dash || null)
+    .attr("stroke-opacity", 0.85)
+    .attr("marker-end", (datum) => (datum.type === "match" ? "url(#graph-arrow)" : null))
+    .attr("d", linkPath);
+
+  link.append("title").text((datum) => {
+    const style = LINK_STYLES[datum.type];
+
+    if (datum.type === "match") {
+      return `${style.label}: score ${datum.score}`;
+    }
+
+    return style.label;
+  });
+
+  labelGroup
+    .selectAll("text")
+    .data(links.filter((datum) => datum.type === "match"))
+    .join("text")
+    .attr("class", "graph-link-score")
+    .attr("text-anchor", "middle")
+    .attr("x", (datum) => (datum.source.x + datum.target.x) / 2)
+    .attr("y", (datum) => (datum.source.y + datum.target.y) / 2 - 8)
+    .text((datum) => datum.score);
 
   const node = nodeGroup
     .selectAll("g")
-    .data(graphData.nodes)
+    .data(nodes)
     .join("g")
     .attr("class", (datum) => `graph-node graph-node--${datum.type}`)
-    .call(drag(simulation));
+    .attr("transform", (datum) => `translate(${datum.x},${datum.y})`);
 
-  node
-    .append("circle")
-    .attr("r", (datum) => NODE_RADIUS[datum.type])
-    .attr("fill", (datum) => NODE_COLORS[datum.type])
-    .attr("stroke", (datum) => NODE_STROKES[datum.type])
-    .attr("stroke-width", 1.5);
+  node.each(function appendNode(datum) {
+    const group = d3.select(this);
+    const size = measureNode(datum);
+    const styles = NODE_STYLES[datum.type];
 
-  node
-    .append("text")
-    .attr("x", (datum) => NODE_RADIUS[datum.type] + 6)
-    .attr("y", 4)
-    .text((datum) => datum.label)
-    .attr("class", "graph-node__label");
+    group
+      .append("rect")
+      .attr("class", "graph-node__box")
+      .attr("x", -size.width / 2)
+      .attr("y", -size.height / 2)
+      .attr("width", size.width)
+      .attr("height", size.height)
+      .attr("rx", 8)
+      .attr("fill", styles.fill)
+      .attr("stroke", styles.stroke);
 
-  node.append("title").text((datum) => datum.fullLabel);
+    group
+      .append("text")
+      .attr("class", "graph-node__type")
+      .attr("text-anchor", "middle")
+      .attr("y", -4)
+      .attr("fill", styles.text)
+      .text(TYPE_LABELS[datum.type]);
 
-  simulation.on("tick", () => {
-    link
-      .attr("x1", (datum) => datum.source.x)
-      .attr("y1", (datum) => datum.source.y)
-      .attr("x2", (datum) => datum.target.x)
-      .attr("y2", (datum) => datum.target.y);
-
-    node.attr("transform", (datum) => `translate(${datum.x},${datum.y})`);
+    group
+      .append("text")
+      .attr("class", "graph-node__label")
+      .attr("text-anchor", "middle")
+      .attr("y", 14)
+      .attr("fill", styles.text)
+      .text(datum.label);
   });
 
+  function setFocus(nodeId = null) {
+    const connected = nodeId ? getConnectedIds(nodeId, links) : null;
+
+    node.classed("is-dimmed", (datum) => connected && !connected.has(datum.id));
+    link.classed("is-dimmed", (datum) => {
+      if (!connected) {
+        return false;
+      }
+
+      return !connected.has(datum.source.id) || !connected.has(datum.target.id);
+    });
+
+    if (detailPanel) {
+      if (!nodeId) {
+        detailPanel.textContent =
+          "Hover a node to see how it connects across the graph.";
+        return;
+      }
+
+      const activeNode = nodes.find((datum) => datum.id === nodeId);
+
+      if (activeNode) {
+        detailPanel.textContent = describeNode(activeNode, links);
+      }
+    }
+  }
+
+  node
+    .on("mouseenter", (_, datum) => setFocus(datum.id))
+    .on("mouseleave", () => setFocus(null))
+    .on("focus", (_, datum) => setFocus(datum.id))
+    .on("blur", () => setFocus(null));
+
+  node.attr("tabindex", 0).attr("role", "button");
+
+  setFocus(null);
+
   return () => {
-    simulation.stop();
+    node.on("mouseenter mouseleave focus blur", null);
   };
 }
