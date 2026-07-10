@@ -7,6 +7,9 @@ from backend.app.services.service_importer import (
     import_informalberta_services,
 )
 
+from backend.app.services.social_importer import (
+    import_reddit_posts,
+)
 
 app = FastAPI(
     title="ServiceLink AI",
@@ -58,3 +61,46 @@ def get_services() -> list[dict]:
     ]
 
     return [service.model_dump() for service in services]
+
+@app.get("/social-posts/reddit")
+def get_reddit_posts() -> list[dict]:
+    reddit_path = (
+        PROJECT_ROOT
+        / "datasets"
+        / "raw"
+        / "social"
+        / "reddit_posts.csv"
+    )
+
+    posts = import_reddit_posts(reddit_path)
+
+    return [
+        post.model_dump(mode="json")
+        for post in posts
+    ]
+
+@app.get("/social-posts/reddit/summary")
+def get_reddit_summary() -> dict[str, object]:
+    reddit_path = (
+        PROJECT_ROOT
+        / "datasets"
+        / "raw"
+        / "social"
+        / "reddit_posts.csv"
+    )
+
+    posts = import_reddit_posts(reddit_path)
+
+    communities = sorted(
+        {
+            post.community
+            for post in posts
+            if post.community
+        }
+    )
+
+    return {
+        "source": "Reddit",
+        "total_posts": len(posts),
+        "communities": communities,
+    }
