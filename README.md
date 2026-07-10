@@ -61,7 +61,14 @@ ACIE explores how software can:
 - Deterministic social-post-to-service linking
 - Explainable match reasons and scores
 - Category and geography alignment rules
+- Keyword overlap and source-trust scoring
 - REST endpoints for linked recommendations
+
+## Recommendations
+
+- Ranked service recommendations API
+- Post and service context in each result
+- Per-post and global recommendation views
 
 ## REST API
 
@@ -109,6 +116,8 @@ Community Data                 (Indeed / ZipRecruiter)
           Entity Enrichment
                      │
        Deterministic Entity Linking
+                     │
+        Explainable Recommendation Scoring
                      │
               FastAPI REST API
                      │
@@ -181,10 +190,11 @@ No personal information is collected, scraped, or redistributed.
 - Automated testing
 - API integration tests
 - GitHub Actions CI
+- Explainable recommendation scoring
 
 ### In Progress
 
-- Recommendation scoring improvements
+- Organization name extraction
 - Conversational search
 - Interactive D3.js visualization
 - Knowledge graph generation
@@ -194,7 +204,6 @@ No personal information is collected, scraped, or redistributed.
 - LLM-assisted entity resolution
 - Semantic search
 - Geographic proximity scoring
-- Service recommendation API
 - Interactive dashboard
 
 ---

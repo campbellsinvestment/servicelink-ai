@@ -133,6 +133,61 @@ Example
 
 ---
 
+## Recommendations
+
+GET
+
+```
+/recommendations
+```
+
+Returns globally ranked, explainable service recommendations with post
+and service context.
+
+Example
+
+```json
+[
+  {
+    "rank": 1,
+    "post_id": "reddit-r004",
+    "post_title": "Home care services",
+    "service_id": "informalberta-3",
+    "service_name": "Home Care Assistance",
+    "organization": "Alberta Wellness Network",
+    "city": "Spruce Grove",
+    "category": "home_care",
+    "score": 29,
+    "match_reasons": [
+      "category:home_care",
+      "city:Spruce Grove",
+      "keywords:care,home,seniors",
+      "source:InformAlberta"
+    ]
+  }
+]
+```
+
+---
+
+## Reddit Post Recommendations
+
+GET
+
+```
+/social-posts/reddit/{post_id}/recommendations
+```
+
+Returns ranked recommendations for a single Reddit post.
+
+Optional query parameter:
+
+```
+limit=5
+```
+
+---
+
 ## Interactive Documentation
 
 FastAPI automatically generates OpenAPI documentation.

@@ -39,6 +39,7 @@ Responsible for
 - service categorization
 - social post enrichment
 - deterministic entity linking between posts and services
+- explainable recommendation scoring
 
 ## API Layer
 
@@ -48,5 +49,4 @@ Future work includes
 
 - semantic search
 - conversational AI
-- recommendation ranking improvements
 - knowledge graph generation
