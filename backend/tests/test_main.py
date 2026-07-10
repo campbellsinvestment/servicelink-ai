@@ -80,3 +80,15 @@ def test_reddit_post_recommendations_endpoint() -> None:
     assert len(recommendations) == 2
     assert recommendations[0]["rank"] == 1
     assert recommendations[0]["service_id"] == "community-A101"
+
+
+def test_cors_allows_local_frontend_origin() -> None:
+    response = client.get(
+        "/health",
+        headers={"Origin": "http://localhost:8080"},
+    )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == (
+        "http://localhost:8080"
+    )

@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend.app.services.service_importer import (
     import_community_services,
@@ -31,6 +32,16 @@ app = FastAPI(
         "and linking it to social-platform posts."
     ),
     version="0.2.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+    ],
+    allow_methods=["GET"],
+    allow_headers=["*"],
 )
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
