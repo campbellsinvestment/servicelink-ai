@@ -1,3 +1,8 @@
+![Python](https://img.shields.io/badge/Python-3.13-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Latest-green)
+![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
+![License](https://img.shields.io/badge/license-Educational-lightgrey)
+
 # ServiceLink AI
 
 ServiceLink AI is an independent research software prototype exploring how heterogeneous community-service records and social-platform data can be standardized, analyzed, and linked through modern software engineering and AI techniques.
