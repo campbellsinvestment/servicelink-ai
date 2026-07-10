@@ -10,11 +10,7 @@ from backend.app.services.service_importer import (
     import_informalberta_services,
 )
 from backend.app.services.social_importer import import_reddit_posts
-
-
-CATEGORY_MATCH_SCORE = 10
-LOCATION_MATCH_SCORE = 5
-CATEGORY_ONLY_MATCH_SCORE = 5
+from backend.app.services.scoring import score_service_match
 
 
 def _city_matches(post: NormalizedSocialPost, service: NormalizedService) -> bool:
@@ -39,16 +35,21 @@ def link_post_to_services(
         if service.category not in post.service_categories:
             continue
 
-        match_reasons = [f"category:{service.category}"]
-
         if post.locations:
             if not _city_matches(post, service):
                 continue
 
-            match_reasons.append(f"city:{service.city}")
-            score = CATEGORY_MATCH_SCORE + LOCATION_MATCH_SCORE
+            score, match_reasons = score_service_match(
+                post,
+                service,
+                has_location_match=True,
+            )
         else:
-            score = CATEGORY_ONLY_MATCH_SCORE
+            score, match_reasons = score_service_match(
+                post,
+                service,
+                has_location_match=False,
+            )
 
         links.append(
             ServiceLink(

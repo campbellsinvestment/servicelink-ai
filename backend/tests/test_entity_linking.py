@@ -50,10 +50,13 @@ def test_link_transportation_post_to_edmonton_services() -> None:
         "community-A101",
         "informalberta-1",
     ]
-    assert all(link.score == 15 for link in links)
+    assert links[0].score == 26
+    assert links[1].score == 26
     assert links[0].match_reasons == [
         "category:transportation",
         "city:Edmonton",
+        "keywords:appointments,medical,transportation",
+        "source:Community Services",
     ]
 
 
@@ -68,11 +71,14 @@ def test_link_home_care_post_to_spruce_grove_services() -> None:
     links = link_post_to_services(home_care_post, services)
 
     assert [link.service_id for link in links] == [
-        "community-A103",
         "informalberta-3",
+        "community-A103",
     ]
+    assert links[0].score == 29
+    assert links[1].score == 20
     assert all("category:home_care" in link.match_reasons for link in links)
     assert all("city:Spruce Grove" in link.match_reasons for link in links)
+    assert links[0].match_reasons[-1] == "source:InformAlberta"
 
 
 def test_link_job_search_post_returns_no_service_links() -> None:
