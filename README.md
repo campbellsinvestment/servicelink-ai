@@ -76,7 +76,8 @@ ACIE explores how software can:
 
 - Object-oriented architecture
 - Automated unit tests
-- Integration tests
+- API integration tests
+- GitHub Actions CI
 - Modular service layer
 - Reusable import pipeline
 - Type-safe Pydantic models
@@ -178,6 +179,8 @@ No personal information is collected, scraped, or redistributed.
 - Lexical analysis
 - Deterministic entity linking
 - Automated testing
+- API integration tests
+- GitHub Actions CI
 
 ### In Progress
 
