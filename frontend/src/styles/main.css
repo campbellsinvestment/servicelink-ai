@@ -36,6 +36,82 @@ body {
   padding: 1.25rem 0 1rem;
 }
 
+.app-header__inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--acie-border);
+  border-radius: 999px;
+  color: var(--acie-brand);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.icon-link:hover,
+.icon-link:focus-visible {
+  background: var(--acie-page);
+}
+
+.icon-link__svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.app-footer {
+  padding: 1.5rem 0 2rem;
+  border-top: 1px solid var(--acie-border);
+  background: var(--acie-bg);
+}
+
+.app-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+}
+
+.app-footer__note {
+  margin: 0;
+  max-width: 28rem;
+  font-size: 0.8125rem;
+  color: var(--acie-muted);
+  line-height: 1.5;
+}
+
+.app-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--acie-brand);
+  text-decoration: none;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  text-decoration: underline;
+}
+
+.footer-link--icon {
+  font-weight: 600;
+}
+
 .app-header__eyebrow {
   margin: 0 0 0.25rem;
   font-size: 0.75rem;

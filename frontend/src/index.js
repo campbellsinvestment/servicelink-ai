@@ -4,6 +4,7 @@ import { fetchDashboardData, fetchRecommendations } from "./js/api.js";
 import { renderDashboard } from "./js/pages/dashboard.js";
 import { renderRecommendationsPage } from "./js/pages/recommendations.js";
 import { renderStatusMessage } from "./js/components.js";
+import { renderAppFooter, renderHeaderActions } from "./js/links.js";
 
 const PAGES = {
   dashboard: {
@@ -38,9 +39,12 @@ function renderShell(activePageKey) {
   return `
     <div class="app-shell">
       <header class="app-header">
-        <div class="shell-inner">
-          <p class="app-header__eyebrow">Alberta Community Intelligence Engine</p>
-          <h1 class="app-header__title">ACIE</h1>
+        <div class="shell-inner app-header__inner">
+          <div>
+            <p class="app-header__eyebrow">Alberta Community Intelligence Engine</p>
+            <h1 class="app-header__title">ACIE</h1>
+          </div>
+          ${renderHeaderActions()}
         </div>
       </header>
       <nav class="app-nav" aria-label="Primary">
@@ -53,6 +57,7 @@ function renderShell(activePageKey) {
           ${renderStatusMessage("Loading...")}
         </div>
       </main>
+      ${renderAppFooter()}
     </div>
   `;
 }
