@@ -37,6 +37,15 @@ export function renderStatItem(label, value) {
   `;
 }
 
+export function renderMatchScore(score) {
+  return `
+    <div class="match-score" aria-label="Match score ${score}">
+      <span class="match-score__label">Score</span>
+      <span class="match-score__value">${score}</span>
+    </div>
+  `;
+}
+
 export function renderFeaturedMatch(recommendation) {
   return `
     <article class="featured-match">
@@ -48,7 +57,7 @@ export function renderFeaturedMatch(recommendation) {
         from ${recommendation.organization} in ${recommendation.city}.
       </p>
       <div class="featured-match__footer">
-        <span class="match-score">${recommendation.score}</span>
+        ${renderMatchScore(recommendation.score)}
         ${renderReasonTags(recommendation.match_reasons)}
       </div>
     </article>
@@ -69,7 +78,7 @@ export function renderRecommendationRow(recommendation) {
         </p>
       </div>
       <div class="match-row__aside">
-        <span class="match-score">${recommendation.score}</span>
+        ${renderMatchScore(recommendation.score)}
         ${renderReasonTags(recommendation.match_reasons)}
       </div>
     </li>
