@@ -10,7 +10,7 @@ def test_root_endpoint() -> None:
     response = client.get("/")
 
     assert response.status_code == 200
-    assert response.json()["name"] == "ServiceLink AI"
+    assert response.json()["name"] == "Alberta Community Intelligence Engine"
     assert response.json()["status"] == "running"
 
 

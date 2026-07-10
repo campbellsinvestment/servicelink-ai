@@ -17,10 +17,11 @@ from backend.app.services.job_importer import (
 )
 
 app = FastAPI(
-    title="ServiceLink AI",
+    title="Alberta Community Intelligence Engine",
     description=(
         "An independent research-software prototype for normalizing "
-        "community-service data and linking it to social-platform posts."
+        "community-service data, enriching it with lexical analysis, "
+        "and linking it to social-platform posts."
     ),
     version="0.2.0",
 )
@@ -31,7 +32,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 @app.get("/")
 def read_root() -> dict[str, str]:
     return {
-        "name": "ServiceLink AI",
+        "name": "Alberta Community Intelligence Engine",
         "status": "running",
         "version": "0.2.0",
     }

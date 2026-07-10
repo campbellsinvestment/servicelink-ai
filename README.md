@@ -3,9 +3,9 @@
 ![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-Educational-lightgrey)
 
-# ServiceLink AI
+# Alberta Community Intelligence Engine (ACIE)
 
-ServiceLink AI is an independent research software prototype exploring how heterogeneous community-service records and social-platform data can be standardized, analyzed, and linked through modern software engineering and AI techniques.
+The Alberta Community Intelligence Engine is an independent research software prototype exploring how heterogeneous community-service records and social-platform data can be standardized, analyzed, and linked through modern software engineering and AI techniques.
 
 The project demonstrates practical approaches to data normalization, multi-source ingestion, lexical analysis, REST API design, and entity linking using publicly available technologies. It was inspired by publicly described research challenges associated with the University of Alberta's SoDa-TaP project.
 
@@ -17,7 +17,7 @@ This repository is an independent educational and research prototype. It is **no
 
 Many organizations maintain valuable community information across disconnected systems with inconsistent data structures. At the same time, people express real needs through online platforms such as Reddit and employment websites.
 
-ServiceLink AI explores how software can:
+ACIE explores how software can:
 
 - normalize inconsistent datasets
 - classify and enrich text using lexical analysis

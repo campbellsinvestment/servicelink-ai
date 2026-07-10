@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for your interest in contributing to ServiceLink AI.
+Thank you for your interest in contributing to the Alberta Community Intelligence Engine (ACIE).
 
 ## Development Setup
 
