@@ -1,6 +1,5 @@
 from pathlib import Path
 
-from backend.app.services.enrichment import enrich_social_post
 from backend.app.services.entity_linking import (
     link_post_to_services,
     link_posts_to_services,
@@ -17,9 +16,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 def _load_enriched_posts() -> list:
     reddit_path = PROJECT_ROOT / "datasets" / "raw" / "social" / "reddit_posts.csv"
-    posts = import_reddit_posts(reddit_path)
-
-    return [enrich_social_post(post) for post in posts]
+    return import_reddit_posts(reddit_path)
 
 
 def _load_services() -> list:
@@ -81,6 +78,22 @@ def test_link_home_care_post_to_spruce_grove_services() -> None:
     assert links[0].match_reasons[-1] == "source:InformAlberta"
 
 
+def test_link_organization_mention_post_prioritizes_named_provider() -> None:
+    posts = _load_enriched_posts()
+    services = _load_services()
+
+    organization_post = next(
+        post for post in posts if post.source_record_id == "r005"
+    )
+
+    links = link_post_to_services(organization_post, services)
+
+    assert organization_post.organizations == ["Edmonton Seniors Centre"]
+    assert links[0].service_id == "informalberta-1"
+    assert links[0].score == 37
+    assert "organization:Edmonton Seniors Centre" in links[0].match_reasons
+
+
 def test_link_job_search_post_returns_no_service_links() -> None:
     posts = _load_enriched_posts()
     services = _load_services()
@@ -102,4 +115,5 @@ def test_link_posts_to_services_returns_links_for_all_matching_posts() -> None:
 
     assert "reddit-r001" in linked_post_ids
     assert "reddit-r004" in linked_post_ids
+    assert "reddit-r005" in linked_post_ids
     assert "reddit-r002" not in linked_post_ids

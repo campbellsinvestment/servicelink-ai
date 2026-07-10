@@ -59,7 +59,7 @@ def test_reddit_adapter_imports_posts() -> None:
 
     posts = RedditPostAdapter().import_file(file_path)
 
-    assert len(posts) == 4
+    assert len(posts) == 5
 
     first_post = posts[0]
 

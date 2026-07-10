@@ -66,7 +66,7 @@ def test_enrich_social_post_extracts_mentioned_organizations() -> None:
     assert organization_post.locations == ["Edmonton"]
 
 
-def test_enrich_social_post_without_registry_leaves_organizations_empty() -> None:
+def test_enrich_social_post_without_registry_preserves_existing_organizations() -> None:
     posts = import_reddit_posts(REDDIT_DATASET)
     organization_post = next(
         post for post in posts if post.source_record_id == "r005"
@@ -74,4 +74,4 @@ def test_enrich_social_post_without_registry_leaves_organizations_empty() -> Non
 
     enriched = enrich_social_post(organization_post)
 
-    assert enriched.organizations == []
+    assert enriched.organizations == ["Edmonton Seniors Centre"]

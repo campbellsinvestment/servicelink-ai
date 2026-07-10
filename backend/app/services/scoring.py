@@ -10,6 +10,7 @@ CATEGORY_MATCH_SCORE = 10
 LOCATION_MATCH_SCORE = 5
 CATEGORY_ONLY_MATCH_SCORE = 5
 KEYWORD_OVERLAP_SCORE = 3
+ORGANIZATION_MATCH_SCORE = 8
 
 SOURCE_TRUST_SCORES: dict[str, int] = {
     "InformAlberta": 5,
@@ -109,6 +110,21 @@ def source_trust_bonus(service: NormalizedService) -> tuple[int, str | None]:
     return score, f"source:{service.source}"
 
 
+def organization_match_bonus(
+    post: NormalizedSocialPost,
+    service: NormalizedService,
+) -> tuple[int, str | None]:
+    """Reward links when a post explicitly mentions the service provider."""
+
+    if service.organization not in post.organizations:
+        return 0, None
+
+    return (
+        ORGANIZATION_MATCH_SCORE,
+        f"organization:{service.organization}",
+    )
+
+
 def score_service_match(
     post: NormalizedSocialPost,
     service: NormalizedService,
@@ -139,5 +155,14 @@ def score_service_match(
     if source_reason:
         score += source_score
         match_reasons.append(source_reason)
+
+    organization_score, organization_reason = organization_match_bonus(
+        post,
+        service,
+    )
+
+    if organization_reason:
+        score += organization_score
+        match_reasons.append(organization_reason)
 
     return score, match_reasons

@@ -61,7 +61,7 @@ def test_recommendations_endpoint_returns_ranked_results() -> None:
 
     recommendations = response.json()
 
-    assert len(recommendations) == 4
+    assert len(recommendations) == 6
     assert recommendations[0]["rank"] == 1
     assert recommendations[0]["score"] >= recommendations[-1]["score"]
     assert recommendations[0]["service_name"]

@@ -26,19 +26,17 @@ def enrich_social_post(
     """Populate lexical enrichment fields on a social post."""
 
     analysis_text = _build_analysis_text(post)
-    organizations: list[str] = []
 
-    if organization_registry:
-        organizations = extract_organizations(
+    update = {
+        "locations": extract_locations(analysis_text),
+        "service_categories": extract_service_categories(analysis_text),
+        "keywords": extract_keywords(analysis_text),
+    }
+
+    if organization_registry is not None:
+        update["organizations"] = extract_organizations(
             analysis_text,
             organization_registry,
         )
 
-    return post.model_copy(
-        update={
-            "organizations": organizations,
-            "locations": extract_locations(analysis_text),
-            "service_categories": extract_service_categories(analysis_text),
-            "keywords": extract_keywords(analysis_text),
-        },
-    )
+    return post.model_copy(update=update)

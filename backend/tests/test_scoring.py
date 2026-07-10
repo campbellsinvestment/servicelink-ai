@@ -108,3 +108,37 @@ def test_score_service_match_builds_explainable_total() -> None:
         "keywords:appointments,medical,transportation",
         "source:Community Services",
     ]
+
+
+def test_organization_match_bonus_rewards_named_service_providers() -> None:
+    post = NormalizedSocialPost(
+        post_id="reddit-r005",
+        source="Reddit",
+        source_record_id="r005",
+        body=(
+            "Has anyone used Edmonton Seniors Centre for affordable "
+            "transportation to medical appointments?"
+        ),
+        locations=["Edmonton"],
+        service_categories=["transportation"],
+        organizations=["Edmonton Seniors Centre"],
+    )
+    service = NormalizedService(
+        service_id="informalberta-1",
+        organization="Edmonton Seniors Centre",
+        service_name="Senior Transportation",
+        category="transportation",
+        city="Edmonton",
+        description="Transportation support for seniors attending appointments",
+        source="InformAlberta",
+        source_record_id="1",
+    )
+
+    score, match_reasons = score_service_match(
+        post,
+        service,
+        has_location_match=True,
+    )
+
+    assert score == 37
+    assert match_reasons[-1] == "organization:Edmonton Seniors Centre"

@@ -38,7 +38,7 @@ def test_reddit_posts_pipeline_returns_enriched_records() -> None:
 
     posts = response.json()
 
-    assert len(posts) == 4
+    assert len(posts) == 5
 
     transportation_post = next(
         post for post in posts if post["source_record_id"] == "r001"
@@ -58,7 +58,7 @@ def test_reddit_summary_reflects_imported_dataset() -> None:
 
     assert summary == {
         "source": "Reddit",
-        "total_posts": 4,
+        "total_posts": 5,
         "communities": ["Alberta", "Edmonton", "alberta"],
     }
 
@@ -90,6 +90,17 @@ def test_job_posting_summary_reflects_imported_dataset() -> None:
     assert "Stony Plain, AB" in summary["locations"]
 
 
+def test_reddit_posts_pipeline_extracts_mentioned_organizations() -> None:
+    response = client.get("/social-posts/reddit")
+
+    posts = response.json()
+    organization_post = next(
+        post for post in posts if post["source_record_id"] == "r005"
+    )
+
+    assert organization_post["organizations"] == ["Edmonton Seniors Centre"]
+
+
 def test_entity_links_pipeline_connects_posts_to_services() -> None:
     response = client.get("/entity-links")
 
@@ -97,11 +108,15 @@ def test_entity_links_pipeline_connects_posts_to_services() -> None:
 
     links = response.json()
 
-    assert len(links) == 4
+    assert len(links) == 6
 
     linked_post_ids = {link["post_id"] for link in links}
 
-    assert linked_post_ids == {"reddit-r001", "reddit-r004"}
+    assert linked_post_ids == {
+        "reddit-r001",
+        "reddit-r004",
+        "reddit-r005",
+    }
 
 
 def test_entity_links_are_consistent_with_enriched_reddit_posts() -> None:

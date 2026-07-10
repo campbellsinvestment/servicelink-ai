@@ -12,7 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 def test_build_recommendations_ranks_by_score() -> None:
     recommendations = build_recommendations(PROJECT_ROOT)
 
-    assert len(recommendations) == 4
+    assert len(recommendations) == 6
     assert recommendations[0].rank == 1
     assert recommendations[0].score >= recommendations[-1].score
     assert recommendations[0].match_reasons
