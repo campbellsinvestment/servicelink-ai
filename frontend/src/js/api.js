@@ -16,13 +16,11 @@ export async function fetchJson(path) {
 
 export function fetchDashboardData() {
   return Promise.all([
-    fetchJson("/health"),
     fetchJson("/services"),
     fetchJson("/social-posts/reddit/summary"),
     fetchJson("/job-postings/summary"),
     fetchJson("/recommendations"),
-  ]).then(([health, services, redditSummary, jobSummary, recommendations]) => ({
-    health,
+  ]).then(([services, redditSummary, jobSummary, recommendations]) => ({
     services,
     redditSummary,
     jobSummary,

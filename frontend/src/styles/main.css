@@ -177,7 +177,15 @@ body {
 }
 
 .home-section {
-  padding-top: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.best-match-panel {
+  padding: 1.5rem 1.5rem 1.25rem;
+  background: var(--acie-bg);
+  border: 1px solid var(--acie-border);
+  border-left: 4px solid var(--acie-brand);
+  border-radius: 0.25rem;
 }
 
 .section-title,
@@ -190,19 +198,25 @@ body {
   font-weight: 600;
 }
 
+.section-title--prominent {
+  margin-bottom: 1.125rem;
+  font-size: 1.125rem;
+  color: var(--acie-brand);
+}
+
 .page-intro {
   font-size: 0.9375rem;
   color: var(--acie-muted);
 }
 
 .featured-match {
-  padding: 1.25rem 0 0;
+  padding: 0;
 }
 
 .featured-match__lead {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.0625rem;
+  line-height: 1.65;
 }
 
 .featured-match__footer {
@@ -348,12 +362,6 @@ body {
 .tag--organization {
   border-color: #e8d4b8;
   background: #faf6ef;
-}
-
-.footnote {
-  margin: 2rem 0 0;
-  font-size: 0.8125rem;
-  color: var(--acie-muted);
 }
 
 .status-message {

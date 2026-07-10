@@ -5,7 +5,6 @@ import {
 } from "../components.js";
 
 export function renderDashboard({
-  health,
   services,
   redditSummary,
   jobSummary,
@@ -22,18 +21,14 @@ export function renderDashboard({
         ${renderStatItem("Matches", recommendations.length)}
       </ul>
 
-      <div class="home-section">
-        <h2 class="section-title">Best match</h2>
+      <div class="home-section best-match-panel">
+        <h2 class="section-title section-title--prominent">Best match</h2>
         ${
           topRecommendation
             ? renderFeaturedMatch(topRecommendation)
             : renderStatusMessage("No matches yet.")
         }
       </div>
-
-      <p class="footnote">
-        API ${health.status} · ${recommendations.length} ranked recommendations available
-      </p>
     </section>
   `;
 }
