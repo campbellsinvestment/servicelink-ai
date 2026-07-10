@@ -5,9 +5,9 @@ import {
 } from "../components.js";
 
 const EXAMPLE_QUERIES = [
-  "I need rides to medical appointments in Edmonton",
-  "Where can I get meal delivery in Stony Plain?",
-  "help getting around town for medical visits",
+  "meal delivery in Stony Plain",
+  "rides in Edmonton",
+  "home care in Spruce Grove",
 ];
 
 function escapeHtml(value) {
@@ -28,10 +28,10 @@ function renderSearchResult(result) {
             ${escapeHtml(result.organization)} · ${escapeHtml(result.city)}
           </span>
         </p>
+        ${renderReasonTags(result.match_reasons)}
       </div>
       <div class="match-row__aside">
         ${renderMatchScore(result.score)}
-        ${renderReasonTags(result.match_reasons)}
       </div>
     </li>
   `;
@@ -39,12 +39,13 @@ function renderSearchResult(result) {
 
 function renderSearchOutput(response) {
   if (!response) {
+    return `<div id="search-output"></div>`;
+  }
+
+  if (!response.results.length) {
     return `
       <div id="search-output">
-        <p class="page-intro">
-          Ask in plain language. The engine extracts category and city cues,
-          then ranks matching community services.
-        </p>
+        <p class="search-answer">${escapeHtml(response.answer)}</p>
       </div>
     `;
   }
@@ -54,12 +55,7 @@ function renderSearchOutput(response) {
   return `
     <div id="search-output">
       <p class="search-answer">${escapeHtml(response.answer)}</p>
-      <p class="search-interpretation">${escapeHtml(response.interpretation.summary)}</p>
-      ${
-        response.results.length
-          ? `<ul class="match-list">${rows}</ul>`
-          : renderStatusMessage("No matching services found.")
-      }
+      <ul class="match-list">${rows}</ul>
     </div>
   `;
 }
@@ -75,20 +71,16 @@ export function renderSearchPage() {
 
   return `
     <section class="search-page">
-      <p class="page-intro">
-        Conversational search over community services using lexical intent
-        extraction — no LLM required for this prototype.
-      </p>
       <form class="search-form" id="search-form">
-        <label class="search-form__label" for="search-query">Your question</label>
         <div class="search-form__row">
           <input
             class="search-form__input"
             id="search-query"
             name="q"
             type="search"
-            placeholder="e.g. meal delivery in Stony Plain"
+            placeholder="Ask about a community service…"
             autocomplete="off"
+            aria-label="Search question"
           />
           <button class="search-form__submit" type="submit">Search</button>
         </div>
