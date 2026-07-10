@@ -177,7 +177,7 @@ body {
 }
 
 .home-section {
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
 }
 
 .best-match-panel {
@@ -281,15 +281,9 @@ body {
 }
 
 .match-row__post {
-  margin: 0;
+  margin: 0 0 0.35rem;
   font-size: 0.875rem;
   color: var(--acie-muted);
-}
-
-.match-row__arrow {
-  margin: 0.15rem 0;
-  color: var(--acie-brand);
-  font-size: 0.875rem;
 }
 
 .match-row__service {

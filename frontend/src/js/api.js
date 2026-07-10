@@ -18,12 +18,10 @@ export function fetchDashboardData() {
   return Promise.all([
     fetchJson("/services"),
     fetchJson("/social-posts/reddit/summary"),
-    fetchJson("/job-postings/summary"),
     fetchJson("/recommendations"),
-  ]).then(([services, redditSummary, jobSummary, recommendations]) => ({
+  ]).then(([services, redditSummary, recommendations]) => ({
     services,
     redditSummary,
-    jobSummary,
     recommendations,
   }));
 }

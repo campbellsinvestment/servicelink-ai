@@ -71,7 +71,6 @@ export function renderRecommendationRow(recommendation) {
         <p class="match-row__post">
           ${recommendation.post_title || recommendation.post_id}
         </p>
-        <p class="match-row__arrow" aria-hidden="true">→</p>
         <p class="match-row__service">
           ${recommendation.service_name}
           <span class="match-row__provider">${recommendation.organization}</span>

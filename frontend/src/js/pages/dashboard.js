@@ -7,27 +7,31 @@ import {
 export function renderDashboard({
   services,
   redditSummary,
-  jobSummary,
   recommendations,
 }) {
   const topRecommendation = recommendations[0];
+  const matchedPostCount = new Set(
+    recommendations.map((recommendation) => recommendation.post_id),
+  ).size;
 
   return `
     <section>
       <ul class="stats-row">
         ${renderStatItem("Services", services.length)}
         ${renderStatItem("Posts", redditSummary.total_posts)}
-        ${renderStatItem("Jobs", jobSummary.total_jobs)}
-        ${renderStatItem("Matches", recommendations.length)}
+        ${renderStatItem("Posts matched", matchedPostCount)}
+        ${renderStatItem("Recommendations", recommendations.length)}
       </ul>
 
-      <div class="home-section best-match-panel">
+      <div class="home-section">
         <h2 class="section-title section-title--prominent">Best match</h2>
-        ${
-          topRecommendation
-            ? renderFeaturedMatch(topRecommendation)
-            : renderStatusMessage("No matches yet.")
-        }
+        <div class="best-match-panel">
+          ${
+            topRecommendation
+              ? renderFeaturedMatch(topRecommendation)
+              : renderStatusMessage("No matches yet.")
+          }
+        </div>
       </div>
     </section>
   `;

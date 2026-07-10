@@ -7,10 +7,14 @@ export function renderRecommendationsPage(recommendations) {
   if (!recommendations.length) {
     return `
       <section>
-        ${renderStatusMessage("No matches in the current datasets.")}
+        ${renderStatusMessage("No recommendations in the current datasets.")}
       </section>
     `;
   }
+
+  const matchedPostCount = new Set(
+    recommendations.map((recommendation) => recommendation.post_id),
+  ).size;
 
   const rows = recommendations
     .map((recommendation) => renderRecommendationRow(recommendation))
@@ -19,7 +23,7 @@ export function renderRecommendationsPage(recommendations) {
   return `
     <section>
       <p class="page-intro">
-        ${recommendations.length} posts linked to community services, ranked by match score.
+        ${recommendations.length} ranked recommendations across ${matchedPostCount} posts.
       </p>
       <ul class="match-list">
         ${rows}
