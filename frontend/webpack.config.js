@@ -4,6 +4,7 @@ const webpack = require("webpack");
 
 const publicPath = process.env.WEBPACK_PUBLIC_PATH || "/";
 const isDemoMode = process.env.ACIE_DEMO_MODE === "true";
+const apiBase = process.env.ACIE_API_BASE || "";
 
 module.exports = {
   entry: "./src/index.js",
@@ -35,6 +36,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       ACIE_DEMO_MODE: JSON.stringify(isDemoMode),
+      ACIE_API_BASE_DEFAULT: JSON.stringify(apiBase),
     }),
   ],
 };

@@ -1,4 +1,4 @@
-const DEFAULT_API_BASE = "http://localhost:8000";
+const FALLBACK_API_BASE = "http://localhost:8000";
 
 let demoDataPromise = null;
 
@@ -15,7 +15,7 @@ async function loadDemoData() {
 }
 
 export function getApiBaseUrl() {
-  return window.ACIE_API_BASE || DEFAULT_API_BASE;
+  return window.ACIE_API_BASE || ACIE_API_BASE_DEFAULT || FALLBACK_API_BASE;
 }
 
 export function isDemoBuild() {

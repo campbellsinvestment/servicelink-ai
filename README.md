@@ -97,6 +97,7 @@ ACIE explores how software can:
 - Automated unit tests
 - API integration tests
 - GitHub Actions CI
+- Docker Compose local stack
 - Modular service layer
 - Reusable import pipeline
 - Type-safe Pydantic models
@@ -209,6 +210,7 @@ No personal information is collected, scraped, or redistributed.
 - D3.js knowledge graph visualization
 - GitHub Pages demo deployment
 - Job posting enrichment and service linking
+- Docker Compose local stack
 
 ### In Progress
 

@@ -1,0 +1,19 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./datasets:/app/datasets:ro
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        ACIE_API_BASE: /api
+        WEBPACK_PUBLIC_PATH: /
+    ports:
+      - "8080:80"
+    depends_on:
+      - api

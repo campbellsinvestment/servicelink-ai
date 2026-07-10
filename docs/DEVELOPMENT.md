@@ -19,6 +19,26 @@ npm run dev
 The API runs on `http://localhost:8000`. The dashboard runs on
 `http://localhost:8080`.
 
+## Docker
+
+Run the full stack with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+Then open `http://localhost:8080`.
+
+The `web` service serves the dashboard and proxies `/api/*` to the FastAPI
+container, so the browser only needs one origin.
+
+Stop with `Ctrl+C`, or run detached:
+
+```bash
+docker compose up --build -d
+docker compose down
+```
+
 ## GitHub Pages
 
 The live demo is published from the `main` branch via GitHub Actions.
@@ -83,7 +103,8 @@ datasets/
 
 docs/
 
-tests/
+Dockerfile
+docker-compose.yml
 ```
 
 ## Current Pipeline

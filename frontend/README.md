@@ -33,6 +33,16 @@ npm run dev
 
 The dashboard runs at `http://localhost:8080` and reads data from `http://localhost:8000`.
 
+## Docker
+
+From the repository root:
+
+```bash
+docker compose up --build
+```
+
+Opens the dashboard at `http://localhost:8080` with the API proxied at `/api`.
+
 ## Build
 
 ```bash
