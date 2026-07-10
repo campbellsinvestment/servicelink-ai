@@ -1,4 +1,5 @@
 import {
+  renderMatchingSummary,
   renderRecommendationItem,
   renderStatusMessage,
 } from "../components.js";
@@ -27,6 +28,7 @@ export function renderRecommendationsPage(recommendations) {
           Ranked links between Reddit posts and community services.
         </p>
       </div>
+      ${renderMatchingSummary()}
       <ul class="recommendation-list">
         ${items}
       </ul>

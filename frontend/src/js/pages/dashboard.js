@@ -33,7 +33,7 @@ export function renderDashboard({
       <p class="section-label">Top match</p>
       ${
         topRecommendation
-          ? `<ul class="recommendation-list">${renderRecommendationItem(topRecommendation)}</ul>`
+          ? `<ul class="recommendation-list">${renderRecommendationItem(topRecommendation, { showSummary: true })}</ul>`
           : renderStatusMessage("No matches yet.")
       }
 
