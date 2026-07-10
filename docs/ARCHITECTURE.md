@@ -37,6 +37,8 @@ Responsible for
 - lexical classification
 - keyword extraction
 - service categorization
+- social post enrichment
+- deterministic entity linking between posts and services
 
 ## API Layer
 
@@ -46,5 +48,5 @@ Future work includes
 
 - semantic search
 - conversational AI
-- recommendation engine
+- recommendation ranking improvements
 - knowledge graph generation

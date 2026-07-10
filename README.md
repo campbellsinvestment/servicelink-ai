@@ -51,9 +51,17 @@ ACIE explores how software can:
 - Configurable dictionary-based classification
 - Rule-based keyword extraction
 - Service category identification
+- Social post enrichment during import
 - Employment classification
 - Technology skill detection
 - Healthcare and senior-support classification
+
+## Entity Linking
+
+- Deterministic social-post-to-service linking
+- Explainable match reasons and scores
+- Category and geography alignment rules
+- REST endpoints for linked recommendations
 
 ## REST API
 
@@ -98,6 +106,8 @@ Community Data                 (Indeed / ZipRecruiter)
           Lexical Analysis
                      │
           Entity Enrichment
+                     │
+       Deterministic Entity Linking
                      │
               FastAPI REST API
                      │
@@ -166,11 +176,12 @@ No personal information is collected, scraped, or redistributed.
 - REST API
 - Geography normalization
 - Lexical analysis
+- Deterministic entity linking
 - Automated testing
 
 ### In Progress
 
-- Entity linking between services and social posts
+- Recommendation scoring improvements
 - Conversational search
 - Interactive D3.js visualization
 - Knowledge graph generation
@@ -179,7 +190,6 @@ No personal information is collected, scraped, or redistributed.
 
 - LLM-assisted entity resolution
 - Semantic search
-- Recommendation engine
 - Geographic proximity scoring
 - Service recommendation API
 - Interactive dashboard
