@@ -13,7 +13,13 @@ Lexical Analysis
      │
 Entity Enrichment
      │
+Entity Linking
+     │
+Recommendations + Search
+     │
 REST API
+     │
+Dashboard / Graph UI
 ```
 
 ## Adapter Layer
@@ -38,21 +44,37 @@ Responsible for
 - keyword extraction
 - service categorization
 - social post enrichment
+- job posting enrichment
 - organization name extraction
-- job posting enrichment and service linking
 - deterministic entity linking between posts and services
+- deterministic entity linking between jobs and services
 - explainable recommendation scoring
 - conversational search over community services
 - TF-IDF semantic similarity scoring
 
 ## API Layer
 
-FastAPI exposes normalized data for downstream consumers.
+FastAPI exposes normalized data for downstream consumers, including
+services, social posts, job postings, entity links, job links,
+recommendations, and conversational search.
 
-The frontend includes a D3 knowledge graph that visualizes entity links
-between Reddit posts, job postings, community services, and organizations.
+## Presentation Layer
 
-Future work includes
+The frontend dashboard includes:
+
+- Overview stats and best match
+- Conversational search
+- Ranked recommendations
+- D3 knowledge graph (posts, jobs, services, organizations)
+
+Delivery options:
+
+- Local Webpack dev server against the API
+- Docker Compose (`web` + `api`, nginx proxies `/api`)
+- GitHub Pages demo with bundled snapshot data
+
+## Future work
 
 - embedding-based semantic search
-- LLM-assisted conversational agents
+- LLM-assisted entity resolution and conversational agents
+- geographic proximity scoring

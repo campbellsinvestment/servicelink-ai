@@ -9,20 +9,34 @@ ACIE is an independent research software prototype inspired by publicly describe
 ```bash
 git clone https://github.com/campbellsinvestment/servicelink-ai.git
 cd servicelink-ai
-
-python -m venv .venv
-source .venv/bin/activate
-
-pip install -r backend/requirements.txt
 ```
 
-Run the application:
+### Docker (full stack)
 
 ```bash
+docker compose up --build
+```
+
+Open `http://localhost:8080`.
+
+### Local (API + frontend)
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
 uvicorn backend.app.main:app --reload
 ```
 
-Run the tests:
+In another terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Tests
 
 ```bash
 python -m pytest
@@ -82,8 +96,12 @@ backend/
         models/
         services/
     tests/
+frontend/
 datasets/
 docs/
+scripts/
+Dockerfile
+docker-compose.yml
 ```
 
 See `docs/DEVELOPMENT.md` and `docs/ARCHITECTURE.md` for more detail.

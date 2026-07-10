@@ -3,16 +3,78 @@
 ![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-Educational-lightgrey)
 ![GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-blue)
+![Docker](https://img.shields.io/badge/Docker-Compose-blue)
 
 # Alberta Community Intelligence Engine (ACIE)
 
-**Live demo:** [campbellsinvestment.github.io/servicelink-ai](https://campbellsinvestment.github.io/servicelink-ai/)
+**Live demo:** [campbellsinvestment.github.io/servicelink-ai](https://campbellsinvestment.github.io/servicelink-ai/)  
+**Repository:** [github.com/campbellsinvestment/servicelink-ai](https://github.com/campbellsinvestment/servicelink-ai)
 
 The Alberta Community Intelligence Engine is an independent research software prototype exploring how heterogeneous community-service records and social-platform data can be standardized, analyzed, and linked through modern software engineering and AI techniques.
 
-The project demonstrates practical approaches to data normalization, multi-source ingestion, lexical analysis, REST API design, and entity linking using publicly available technologies. It was inspired by publicly described research challenges associated with the University of Alberta's SoDa-TaP project.
+The project demonstrates practical approaches to data normalization, multi-source ingestion, lexical analysis, REST API design, entity linking, explainable recommendations, knowledge-graph visualization, and conversational search using publicly available technologies. It was inspired by publicly described research challenges associated with the University of Alberta's SoDa-TaP project.
 
 This repository is an independent educational and research prototype. It is **not affiliated with** the University of Alberta, SoDa-TaP, AVOID, InformAlberta, or the Bridging Divides program, and does **not** contain any private source code, datasets, or intellectual property.
+
+---
+
+# Quick Start
+
+## Option A — Docker (recommended)
+
+Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+
+```bash
+git clone https://github.com/campbellsinvestment/servicelink-ai.git
+cd servicelink-ai
+docker compose up --build
+```
+
+Open [http://localhost:8080](http://localhost:8080).
+
+The `web` service serves the dashboard and proxies `/api/*` to FastAPI, so the browser only needs one origin.
+
+```bash
+# stop
+docker compose down
+```
+
+## Option B — Local development
+
+**Terminal 1 — API**
+
+```bash
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r backend/requirements.txt
+uvicorn backend.app.main:app --reload
+```
+
+API: [http://localhost:8000](http://localhost:8000)  
+Interactive docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+**Terminal 2 — Frontend**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Dashboard: [http://localhost:8080](http://localhost:8080)
+
+## Tests
+
+```bash
+source .venv/bin/activate
+python -m pytest
+```
+
+## Public demo (GitHub Pages)
+
+The live site is rebuilt on every push to `main`. It uses a bundled demo-data snapshot (no hosted API required).
+
+Details: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
 
 ---
 
@@ -26,7 +88,7 @@ ACIE explores how software can:
 - classify and enrich text using lexical analysis
 - connect people with relevant services
 - expose standardized data through modern APIs
-- provide a foundation for conversational search and AI-assisted decision support
+- support conversational search and explainable recommendations
 
 ---
 
@@ -55,10 +117,8 @@ ACIE explores how software can:
 - Rule-based keyword extraction
 - Service category identification
 - Social post enrichment during import
+- Job posting enrichment during import
 - Organization name extraction from service registry
-- Employment classification
-- Technology skill detection
-- Healthcare and senior-support classification
 
 ## Entity Linking
 
@@ -68,7 +128,6 @@ ACIE explores how software can:
 - Category and geography alignment rules
 - Keyword overlap and source-trust scoring
 - Organization mention scoring
-- REST endpoints for linked recommendations
 
 ## Recommendations
 
@@ -76,38 +135,40 @@ ACIE explores how software can:
 - Post and service context in each result
 - Per-post and global recommendation views
 
-## Knowledge Graph
-
-- D3 force-directed graph in the frontend
-- Posts, services, and organizations as nodes
-- Match, provider, and mention relationships from entity links
-
 ## Conversational Search
 
-- Natural-language service questions via `/search`
+- Natural-language service questions via `GET /search?q=...`
 - Lexical intent extraction for category and city
 - TF-IDF semantic similarity scoring
 - Ranked, explainable answers in the dashboard Search tab
 
+## Knowledge Graph
+
+- Columnar D3 visualization: posts → jobs → services → organizations
+- Scored match links plus provider and mention relationships
+- Hover highlighting and detail panel
+
+## Dashboard
+
+- Overview stats and best-match highlight
+- Search, Recommendations, and Graph pages
+- Alberta design-token styling
+
 ## REST API
 
-- FastAPI
-- OpenAPI documentation
-- Aggregated service endpoints
-- Reddit endpoints
-- Job posting endpoints
-- Summary endpoints
+- FastAPI with OpenAPI docs at `/docs`
+- Services, Reddit posts, job postings, summaries
+- Entity links, job links, recommendations
+- Conversational search
 
 ## Software Engineering
 
 - Object-oriented architecture
-- Automated unit tests
-- API integration tests
+- Automated unit and API integration tests
 - GitHub Actions CI
 - Docker Compose local stack
-- Modular service layer
-- Reusable import pipeline
-- Type-safe Pydantic models
+- GitHub Pages demo deployment
+- Modular service layer and type-safe Pydantic models
 
 ---
 
@@ -137,11 +198,12 @@ Community Data                 (Indeed / ZipRecruiter)
                      │
        Deterministic Entity Linking
                      │
-        Explainable Recommendation Scoring
+   Recommendation Scoring + Search
                      │
               FastAPI REST API
                      │
-        Future AI / Search Layer
+        Dashboard / Graph / Search UI
+              (Webpack + D3)
 ```
 
 ---
@@ -172,28 +234,41 @@ No personal information is collected, scraped, or redistributed.
 
 ### Backend
 
-- Python
+- Python 3.13
 - FastAPI
+- Pydantic
 - Pandas
 - NumPy
-- Pydantic
+- pytest
 
 ### Frontend
 
 - JavaScript
 - Webpack
-- Government of Alberta Design System
-- Bootstrap-inspired layout tokens
 - D3.js
+- Government of Alberta Design System (`@abgov/design-tokens`)
+
+### Delivery
+
+- Docker Compose
+- GitHub Actions (CI + Pages)
+- GitHub Pages live demo
 
 ### Development
 
-- pytest
-- Git
-- GitHub
-- VS Code
-- Cursor
+- Git / GitHub
+- VS Code / Cursor
 - GitHub Copilot
+
+---
+
+# Documentation
+
+- [Development guide](docs/DEVELOPMENT.md) — local run, Docker, Pages, testing
+- [Architecture](docs/ARCHITECTURE.md) — system layers
+- [API reference](docs/API.md) — endpoint summary
+- [Contributing](CONTRIBUTING.md) — setup and PR expectations
+- [Frontend](frontend/README.md) — dashboard pages and build
 
 ---
 
@@ -201,35 +276,23 @@ No personal information is collected, scraped, or redistributed.
 
 ### Completed
 
-- Multi-source CSV ingestion
-- Shared data models
-- Adapter architecture
-- REST API
-- Geography normalization
-- Lexical analysis
-- Deterministic entity linking
-- Automated testing
-- API integration tests
-- GitHub Actions CI
+- Multi-source CSV ingestion and shared models
+- Adapter architecture and REST API
+- Geography / lexical analysis / organization extraction
+- Deterministic entity linking (posts and jobs)
 - Explainable recommendation scoring
-- Organization name extraction
-- Webpack dashboard scaffold
-- D3.js knowledge graph visualization
-- GitHub Pages demo deployment
-- Job posting enrichment and service linking
+- Automated testing and GitHub Actions CI
+- Webpack dashboard (Dashboard, Search, Recommendations, Graph)
+- D3 knowledge graph
+- Conversational search with TF-IDF semantic scoring
 - Docker Compose local stack
-- Conversational search
-- TF-IDF semantic similarity search
-
-### In Progress
-
-- LLM-assisted entity resolution
+- GitHub Pages demo deployment
 
 ### Planned
 
+- LLM-assisted entity resolution
 - Embedding-based semantic search
 - Geographic proximity scoring
-- Interactive dashboard enhancements
 
 ---
 

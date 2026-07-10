@@ -1,10 +1,32 @@
 # Development
 
-## Running
+## Quick Start (Docker)
+
+```bash
+docker compose up --build
+```
+
+Open `http://localhost:8080`.
+
+| Service | Role |
+|---------|------|
+| `api` | FastAPI on port 8000 (internal) |
+| `web` | nginx dashboard; proxies `/api/*` → API |
+
+```bash
+docker compose down
+```
+
+Requires Docker Desktop. If `docker` is not found, install it first, then open Docker Desktop before running Compose.
+
+## Local Development (without Docker)
 
 Backend API:
 
 ```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
 uvicorn backend.app.main:app --reload
 ```
 
@@ -16,28 +38,11 @@ npm install
 npm run dev
 ```
 
-The API runs on `http://localhost:8000`. The dashboard runs on
-`http://localhost:8080`.
-
-## Docker
-
-Run the full stack with Docker Compose:
-
-```bash
-docker compose up --build
-```
-
-Then open `http://localhost:8080`.
-
-The `web` service serves the dashboard and proxies `/api/*` to the FastAPI
-container, so the browser only needs one origin.
-
-Stop with `Ctrl+C`, or run detached:
-
-```bash
-docker compose up --build -d
-docker compose down
-```
+| App | URL |
+|-----|-----|
+| Dashboard | http://localhost:8080 |
+| API | http://localhost:8000 |
+| OpenAPI docs | http://localhost:8000/docs |
 
 ## GitHub Pages
 
@@ -45,21 +50,16 @@ The live demo is published from the `main` branch via GitHub Actions.
 
 **URL:** `https://campbellsinvestment.github.io/servicelink-ai/`
 
-Enable it once in the repository settings:
-
-1. **Settings → Pages → Build and deployment**
-2. Set **Source** to **GitHub Actions**
-
 Each push to `main` runs `.github/workflows/pages.yml`, which:
 
-1. Exports a demo API snapshot from the backend test client
-2. Builds the frontend in demo mode with the correct `/servicelink-ai/` asset path
+1. Exports a demo API snapshot (`scripts/export_demo_data.py`)
+2. Builds the frontend in demo mode with the `/servicelink-ai/` asset path
 3. Deploys `frontend/dist` to GitHub Pages
 
 The public site uses bundled demo data so it works without a hosted API.
-Local development still talks to the FastAPI server on port 8000.
+Local Docker and `npm run dev` talk to the live FastAPI server.
 
-To reproduce the Pages build locally:
+Reproduce the Pages build locally:
 
 ```bash
 python scripts/export_demo_data.py
@@ -96,35 +96,40 @@ backend/
 
 frontend/
     src/
+    Dockerfile
+    nginx.conf
 
 datasets/
     raw/
     processed/
 
 docs/
+scripts/
+    export_demo_data.py
 
 Dockerfile
 docker-compose.yml
+.github/workflows/
+    ci.yml
+    pages.yml
 ```
 
 ## Current Pipeline
 
 ```
-CSV
-
-↓
-
-Validation
-
-↓
-
-Normalization
-
-↓
-
-Enrichment
-
-↓
-
-REST API
+CSV sources
+    ↓
+Adapters + validation
+    ↓
+Normalization + geography
+    ↓
+Lexical enrichment
+    ↓
+Entity linking (posts / jobs → services)
+    ↓
+Recommendations + conversational search
+    ↓
+FastAPI
+    ↓
+Dashboard (Search, Recommendations, Graph)
 ```
