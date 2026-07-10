@@ -1,8 +1,12 @@
-@import "@abgov/web-components/index.css";
 @import "@abgov/design-tokens/dist/tokens.css";
 
 :root {
   color-scheme: light;
+  --acie-brand: var(--goa-color-brand-700, #005072);
+  --acie-border: var(--goa-color-greyscale-200, #e5e5e5);
+  --acie-muted: var(--goa-color-text-secondary, #666666);
+  --acie-bg: #ffffff;
+  --acie-page: #fafafa;
 }
 
 * {
@@ -12,185 +16,197 @@
 body {
   margin: 0;
   font-family: var(--goa-font-family-sans, sans-serif);
-  background: var(--goa-color-greyscale-100, #f1f1f1);
+  background: var(--acie-page);
   color: var(--goa-color-text, #333333);
+  line-height: 1.5;
 }
 
 .app-shell {
   min-height: 100vh;
 }
 
-.app-header {
-  background: var(--goa-color-brand-700, #005072);
-  color: #ffffff;
-  padding: 1.5rem 0;
+.shell-inner {
+  width: min(960px, calc(100% - 2.5rem));
+  margin: 0 auto;
 }
 
-.app-header__inner,
-.app-main__inner {
-  width: min(1120px, calc(100% - 2rem));
-  margin: 0 auto;
+.app-header {
+  background: var(--acie-bg);
+  border-bottom: 3px solid var(--acie-brand);
+  padding: 1.25rem 0 1rem;
+}
+
+.app-header__eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--acie-muted);
 }
 
 .app-header__title {
   margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-}
-
-.app-header__subtitle {
-  margin: 0.5rem 0 0;
-  max-width: 48rem;
-  line-height: 1.5;
-  opacity: 0.95;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--acie-brand);
 }
 
 .app-nav {
-  background: #ffffff;
-  border-bottom: 1px solid var(--goa-color-greyscale-200, #dcdcdc);
+  background: var(--acie-bg);
+  border-bottom: 1px solid var(--acie-border);
 }
 
 .app-nav__inner {
-  width: min(1120px, calc(100% - 2rem));
-  margin: 0 auto;
   display: flex;
-  gap: 0.5rem;
-  padding: 0.75rem 0;
+  gap: 1.5rem;
 }
 
 .app-nav__button {
-  border: 1px solid transparent;
+  border: 0;
   background: transparent;
-  color: var(--goa-color-brand-700, #005072);
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  color: var(--acie-muted);
+  padding: 0.875rem 0;
   cursor: pointer;
   font: inherit;
+  font-size: 0.9375rem;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
 }
 
 .app-nav__button:hover,
 .app-nav__button:focus-visible {
-  background: var(--goa-color-greyscale-100, #f1f1f1);
+  color: var(--acie-brand);
 }
 
 .app-nav__button.is-active {
-  background: var(--goa-color-brand-700, #005072);
-  color: #ffffff;
+  color: var(--acie-brand);
+  border-bottom-color: var(--acie-brand);
 }
 
 .app-main {
-  padding: 1.5rem 0 3rem;
+  padding: 2rem 0 3rem;
+}
+
+.page-heading {
+  margin-bottom: 2rem;
 }
 
 .page-title {
-  margin: 0 0 0.5rem;
-  font-size: 1.5rem;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
 .page-description {
-  margin: 0 0 1.5rem;
-  max-width: 48rem;
-  line-height: 1.6;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.stat-card,
-.panel,
-.recommendation-card {
-  background: #ffffff;
-  border: 1px solid var(--goa-color-greyscale-200, #dcdcdc);
-  border-radius: 0.25rem;
-  padding: 1rem;
-}
-
-.stat-card__label {
-  margin: 0;
-  font-size: 0.875rem;
-  color: var(--goa-color-text-secondary, #666666);
-}
-
-.stat-card__value {
   margin: 0.35rem 0 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--goa-color-brand-700, #005072);
+  max-width: 36rem;
+  font-size: 0.9375rem;
+  color: var(--acie-muted);
 }
 
-.panel + .panel {
-  margin-top: 1rem;
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  padding: 0 0 2rem;
+  margin: 0 0 2rem;
+  border-bottom: 1px solid var(--acie-border);
+  list-style: none;
 }
 
-.panel__title {
-  margin: 0 0 0.75rem;
-  font-size: 1.125rem;
+.stat-item__label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--acie-muted);
+}
+
+.stat-item__value {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--acie-brand);
+}
+
+.section-label {
+  margin: 0 0 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--acie-muted);
 }
 
 .recommendation-list {
-  display: grid;
-  gap: 1rem;
-}
-
-.recommendation-card__header {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-.recommendation-card__title {
   margin: 0;
-  font-size: 1.125rem;
-}
-
-.recommendation-card__score {
-  margin: 0;
-  font-weight: 700;
-  color: var(--goa-color-brand-700, #005072);
-  white-space: nowrap;
-}
-
-.recommendation-card__meta {
-  margin: 0.5rem 0 0;
-  color: var(--goa-color-text-secondary, #666666);
-}
-
-.reason-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0.75rem 0 0;
   padding: 0;
   list-style: none;
 }
 
-.reason-list__item {
-  background: var(--goa-color-greyscale-100, #f1f1f1);
-  border-radius: 999px;
-  padding: 0.25rem 0.75rem;
+.recommendation-item {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--acie-border);
+}
+
+.recommendation-item:first-child {
+  padding-top: 0;
+}
+
+.recommendation-item__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.recommendation-item__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.recommendation-item__score {
+  margin: 0;
   font-size: 0.875rem;
+  color: var(--acie-muted);
+  white-space: nowrap;
+}
+
+.recommendation-item__meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  color: var(--acie-muted);
+}
+
+.reason-text {
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--acie-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.meta-line {
+  margin: 2rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--acie-muted);
 }
 
 .status-message {
   margin: 0;
-  padding: 1rem;
-  background: #ffffff;
-  border: 1px solid var(--goa-color-greyscale-200, #dcdcdc);
-  border-radius: 0.25rem;
+  font-size: 0.9375rem;
+  color: var(--acie-muted);
 }
 
 .status-message--error {
-  border-color: #b42318;
   color: #b42318;
 }
 
 @media (max-width: 640px) {
-  .recommendation-card__header {
+  .recommendation-item__row {
     flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .stats-row {
+    gap: 1rem 1.5rem;
   }
 }

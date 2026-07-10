@@ -1,5 +1,5 @@
 import {
-  renderRecommendationCard,
+  renderRecommendationItem,
   renderStatusMessage,
 } from "../components.js";
 
@@ -7,26 +7,29 @@ export function renderRecommendationsPage(recommendations) {
   if (!recommendations.length) {
     return `
       <section>
-        <h2 class="page-title">Recommendations</h2>
-        ${renderStatusMessage("No recommendations matched the current datasets.")}
+        <div class="page-heading">
+          <h2 class="page-title">Recommendations</h2>
+        </div>
+        ${renderStatusMessage("No matches in the current datasets.")}
       </section>
     `;
   }
 
-  const cards = recommendations
-    .map((recommendation) => renderRecommendationCard(recommendation))
+  const items = recommendations
+    .map((recommendation) => renderRecommendationItem(recommendation))
     .join("");
 
   return `
     <section>
-      <h2 class="page-title">Recommendations</h2>
-      <p class="page-description">
-        Ranked, explainable matches between enriched Reddit posts and
-        normalized Alberta community services.
-      </p>
-      <div class="recommendation-list">
-        ${cards}
+      <div class="page-heading">
+        <h2 class="page-title">Recommendations</h2>
+        <p class="page-description">
+          Ranked links between Reddit posts and community services.
+        </p>
       </div>
+      <ul class="recommendation-list">
+        ${items}
+      </ul>
     </section>
   `;
 }

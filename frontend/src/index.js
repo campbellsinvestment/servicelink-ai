@@ -1,4 +1,3 @@
-import "@abgov/web-components";
 import "./styles/main.css";
 
 import { fetchDashboardData, fetchRecommendations } from "./js/api.js";
@@ -39,22 +38,19 @@ function renderShell(activePageKey) {
   return `
     <div class="app-shell">
       <header class="app-header">
-        <div class="app-header__inner">
-          <h1 class="app-header__title">Alberta Community Intelligence Engine</h1>
-          <p class="app-header__subtitle">
-            Research dashboard for community-service discovery, social-post
-            enrichment, and explainable recommendations.
-          </p>
+        <div class="shell-inner">
+          <p class="app-header__eyebrow">Alberta Community Intelligence Engine</p>
+          <h1 class="app-header__title">ACIE</h1>
         </div>
       </header>
       <nav class="app-nav" aria-label="Primary">
-        <div class="app-nav__inner">
+        <div class="shell-inner app-nav__inner">
           ${navigation}
         </div>
       </nav>
       <main class="app-main">
-        <div class="app-main__inner" id="page-content">
-          ${renderStatusMessage("Loading dashboard data...")}
+        <div class="shell-inner" id="page-content">
+          ${renderStatusMessage("Loading...")}
         </div>
       </main>
     </div>
@@ -69,14 +65,14 @@ async function renderPage(pageKey) {
     return;
   }
 
-  content.innerHTML = renderStatusMessage(`Loading ${page.label.toLowerCase()}...`);
+  content.innerHTML = renderStatusMessage("Loading...");
 
   try {
     const data = await page.load();
     content.innerHTML = page.render(data);
   } catch (error) {
     content.innerHTML = renderStatusMessage(
-      `Unable to load ${page.label.toLowerCase()}. Start the FastAPI server on port 8000.`,
+      "Unable to reach the API. Start the server on port 8000.",
       { isError: true },
     );
     console.error(error);

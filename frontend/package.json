@@ -16,7 +16,6 @@
     "webpack-dev-server": "^5.2.1"
   },
   "dependencies": {
-    "@abgov/design-tokens": "^1.0.0",
-    "@abgov/web-components": "^2.3.0"
+    "@abgov/design-tokens": "^1.0.0"
   }
 }
