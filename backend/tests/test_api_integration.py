@@ -140,3 +140,48 @@ def test_post_service_links_match_aggregate_entity_links() -> None:
     ]
 
     assert post_response.json() == aggregate_links
+
+
+def test_recommendations_pipeline_returns_explainable_ranked_matches() -> None:
+    response = client.get("/recommendations")
+
+    assert response.status_code == 200
+
+    recommendations = response.json()
+
+    assert recommendations[0]["score"] >= recommendations[-1]["score"]
+    assert any(
+        reason.startswith("keywords:")
+        for reason in recommendations[0]["match_reasons"]
+    )
+
+
+def test_post_recommendations_match_global_ranking_for_same_post() -> None:
+    global_response = client.get("/recommendations")
+    post_response = client.get(
+        "/social-posts/reddit/reddit-r001/recommendations",
+    )
+
+    global_for_post = [
+        recommendation
+        for recommendation in global_response.json()
+        if recommendation["post_id"] == "reddit-r001"
+    ]
+    post_recommendations = post_response.json()
+
+    assert [
+        {
+            key: value
+            for key, value in recommendation.items()
+            if key != "rank"
+        }
+        for recommendation in post_recommendations
+    ] == [
+        {
+            key: value
+            for key, value in recommendation.items()
+            if key != "rank"
+        }
+        for recommendation in global_for_post
+    ]
+    assert post_recommendations[0]["rank"] == 1

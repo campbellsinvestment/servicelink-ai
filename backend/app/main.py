@@ -18,6 +18,11 @@ from backend.app.services.job_importer import (
 
 from backend.app.services.entity_linking import build_service_links
 
+from backend.app.services.recommendations import (
+    build_post_recommendations,
+    build_recommendations,
+)
+
 app = FastAPI(
     title="Alberta Community Intelligence Engine",
     description=(
@@ -205,3 +210,30 @@ def get_reddit_post_service_links(post_id: str) -> list[dict]:
     ]
 
     return [link.model_dump() for link in filtered_links]
+
+
+@app.get("/recommendations")
+def get_recommendations() -> list[dict]:
+    recommendations = build_recommendations(PROJECT_ROOT)
+
+    return [
+        recommendation.model_dump()
+        for recommendation in recommendations
+    ]
+
+
+@app.get("/social-posts/reddit/{post_id}/recommendations")
+def get_reddit_post_recommendations(
+    post_id: str,
+    limit: int = 5,
+) -> list[dict]:
+    recommendations = build_post_recommendations(
+        PROJECT_ROOT,
+        post_id,
+        limit=limit,
+    )
+
+    return [
+        recommendation.model_dump()
+        for recommendation in recommendations
+    ]

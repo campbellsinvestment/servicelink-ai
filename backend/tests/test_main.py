@@ -52,3 +52,31 @@ def test_reddit_post_service_links_endpoint_returns_empty_for_unmatched_post() -
 
     assert response.status_code == 200
     assert response.json() == []
+
+
+def test_recommendations_endpoint_returns_ranked_results() -> None:
+    response = client.get("/recommendations")
+
+    assert response.status_code == 200
+
+    recommendations = response.json()
+
+    assert len(recommendations) == 4
+    assert recommendations[0]["rank"] == 1
+    assert recommendations[0]["score"] >= recommendations[-1]["score"]
+    assert recommendations[0]["service_name"]
+    assert recommendations[0]["match_reasons"]
+
+
+def test_reddit_post_recommendations_endpoint() -> None:
+    response = client.get(
+        "/social-posts/reddit/reddit-r001/recommendations",
+    )
+
+    assert response.status_code == 200
+
+    recommendations = response.json()
+
+    assert len(recommendations) == 2
+    assert recommendations[0]["rank"] == 1
+    assert recommendations[0]["service_id"] == "community-A101"
