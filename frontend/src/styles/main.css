@@ -368,6 +368,72 @@ body {
   color: #b42318;
 }
 
+.graph-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  font-size: 0.8125rem;
+  color: var(--acie-muted);
+}
+
+.graph-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.graph-legend__swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+}
+
+.graph-legend__swatch--post {
+  background: #d6e8f3;
+  border-color: #7eb8d4;
+}
+
+.graph-legend__swatch--service {
+  background: #005072;
+  border-color: #003f5c;
+}
+
+.graph-legend__swatch--organization {
+  background: #faf6ef;
+  border-color: #c9a66b;
+}
+
+.graph-panel {
+  min-height: 480px;
+  padding: 0.75rem;
+  background: var(--acie-bg);
+  border: 1px solid var(--acie-border);
+  border-radius: 0.25rem;
+}
+
+.graph-panel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.graph-node__label {
+  font-size: 0.75rem;
+  fill: var(--acie-muted);
+  pointer-events: none;
+}
+
+.graph-node--service .graph-node__label {
+  fill: var(--acie-brand);
+  font-weight: 600;
+}
+
 @media (max-width: 720px) {
   .match-row {
     grid-template-columns: 1fr;

@@ -1,7 +1,8 @@
 import "./styles/main.css";
 
-import { fetchDashboardData, fetchRecommendations } from "./js/api.js";
+import { fetchDashboardData, fetchGraphData, fetchRecommendations } from "./js/api.js";
 import { renderDashboard } from "./js/pages/dashboard.js";
+import { mountGraphPage, renderGraphPage } from "./js/pages/graph.js";
 import { renderRecommendationsPage } from "./js/pages/recommendations.js";
 import { renderStatusMessage } from "./js/components.js";
 import { renderAppFooter, renderHeaderActions } from "./js/links.js";
@@ -16,6 +17,12 @@ const PAGES = {
     label: "Recommendations",
     load: fetchRecommendations,
     render: renderRecommendationsPage,
+  },
+  graph: {
+    label: "Graph",
+    load: fetchGraphData,
+    render: renderGraphPage,
+    mount: mountGraphPage,
   },
 };
 
@@ -75,6 +82,10 @@ async function renderPage(pageKey) {
   try {
     const data = await page.load();
     content.innerHTML = page.render(data);
+
+    if (page.mount) {
+      page.mount(content, data);
+    }
   } catch (error) {
     content.innerHTML = renderStatusMessage(
       "Unable to reach the API. Start the server on port 8000.",

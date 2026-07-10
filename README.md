@@ -72,6 +72,12 @@ ACIE explores how software can:
 - Post and service context in each result
 - Per-post and global recommendation views
 
+## Knowledge Graph
+
+- D3 force-directed graph in the frontend
+- Posts, services, and organizations as nodes
+- Match, provider, and mention relationships from entity links
+
 ## REST API
 
 - FastAPI
@@ -166,7 +172,7 @@ No personal information is collected, scraped, or redistributed.
 - Webpack
 - Government of Alberta Design System
 - Bootstrap-inspired layout tokens
-- D3.js (planned)
+- D3.js
 
 ### Development
 
@@ -196,12 +202,11 @@ No personal information is collected, scraped, or redistributed.
 - Explainable recommendation scoring
 - Organization name extraction
 - Webpack dashboard scaffold
+- D3.js knowledge graph visualization
 
 ### In Progress
 
-- D3.js knowledge graph visualization
 - Conversational search
-- Knowledge graph generation
 
 ### Planned
 

@@ -6,7 +6,14 @@ Webpack dashboard for the Alberta Community Intelligence Engine.
 
 - JavaScript
 - Webpack
-- Government of Alberta Design System (`@abgov/web-components`, `@abgov/design-tokens`)
+- D3.js (knowledge graph)
+- Government of Alberta Design System (`@abgov/design-tokens`)
+
+## Pages
+
+- **Dashboard** — stats and best match
+- **Recommendations** — ranked post-to-service matches
+- **Graph** — force-directed view of posts, services, and organizations
 
 ## Development
 

@@ -29,3 +29,15 @@ export function fetchDashboardData() {
 export function fetchRecommendations() {
   return fetchJson("/recommendations");
 }
+
+export function fetchGraphData() {
+  return Promise.all([
+    fetchJson("/social-posts/reddit"),
+    fetchJson("/services"),
+    fetchJson("/entity-links"),
+  ]).then(([posts, services, links]) => ({
+    posts,
+    services,
+    links,
+  }));
+}

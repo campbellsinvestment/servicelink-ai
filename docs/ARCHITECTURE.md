@@ -46,8 +46,11 @@ Responsible for
 
 FastAPI exposes normalized data for downstream consumers.
 
+The frontend includes a D3 knowledge graph that visualizes entity links
+between Reddit posts, community services, and organizations.
+
 Future work includes
 
 - semantic search
 - conversational AI
-- knowledge graph generation
+- job-to-service linking
