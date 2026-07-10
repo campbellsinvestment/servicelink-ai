@@ -5,6 +5,7 @@
   "description": "Alberta Community Intelligence Engine dashboard",
   "scripts": {
     "build": "webpack --mode production",
+    "build:pages": "webpack --mode production",
     "dev": "webpack serve --mode development --open"
   },
   "devDependencies": {

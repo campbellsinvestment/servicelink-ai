@@ -1,9 +1,10 @@
-import { getApiBaseUrl } from "./api.js";
+import { getApiBaseUrl, isDemoBuild } from "./api.js";
 
 export const GITHUB_REPO_URL =
   "https://github.com/campbellsinvestment/servicelink-ai";
 
 export const GITHUB_DATASETS_URL = `${GITHUB_REPO_URL}/tree/main/datasets/raw`;
+export const GITHUB_API_DOCS_URL = `${GITHUB_REPO_URL}/blob/main/docs/API.md`;
 
 function renderGitHubIcon() {
   return `
@@ -18,7 +19,7 @@ function renderGitHubIcon() {
 }
 
 export function renderAppFooter() {
-  const apiDocsUrl = `${getApiBaseUrl()}/docs`;
+  const apiDocsUrl = isDemoBuild() ? GITHUB_API_DOCS_URL : `${getApiBaseUrl()}/docs`;
 
   return `
     <footer class="app-footer">

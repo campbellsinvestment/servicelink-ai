@@ -1,10 +1,39 @@
 const DEFAULT_API_BASE = "http://localhost:8000";
 
+let demoDataPromise = null;
+
+function isDemoMode() {
+  return ACIE_DEMO_MODE;
+}
+
+async function loadDemoData() {
+  if (!demoDataPromise) {
+    demoDataPromise = import("../demo/demo.json").then((module) => module.default);
+  }
+
+  return demoDataPromise;
+}
+
 export function getApiBaseUrl() {
   return window.ACIE_API_BASE || DEFAULT_API_BASE;
 }
 
+export function isDemoBuild() {
+  return isDemoMode();
+}
+
 export async function fetchJson(path) {
+  if (isDemoMode()) {
+    const demo = await loadDemoData();
+    const payload = demo.endpoints[path];
+
+    if (payload === undefined) {
+      throw new Error(`Demo data missing for ${path}`);
+    }
+
+    return payload;
+  }
+
   const response = await fetch(`${getApiBaseUrl()}${path}`);
 
   if (!response.ok) {

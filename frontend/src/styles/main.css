@@ -21,6 +21,16 @@ body {
   line-height: 1.5;
 }
 
+.demo-banner {
+  margin: 0;
+  padding: 0.45rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--acie-muted);
+  background: #f3f7fa;
+  border-bottom: 1px solid var(--acie-border);
+}
+
 .app-shell {
   display: flex;
   flex-direction: column;

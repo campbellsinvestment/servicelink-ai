@@ -2,8 +2,11 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-Latest-green)
 ![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-Educational-lightgrey)
+![GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-blue)
 
 # Alberta Community Intelligence Engine (ACIE)
+
+**Live demo:** [campbellsinvestment.github.io/servicelink-ai](https://campbellsinvestment.github.io/servicelink-ai/)
 
 The Alberta Community Intelligence Engine is an independent research software prototype exploring how heterogeneous community-service records and social-platform data can be standardized, analyzed, and linked through modern software engineering and AI techniques.
 
@@ -203,6 +206,7 @@ No personal information is collected, scraped, or redistributed.
 - Organization name extraction
 - Webpack dashboard scaffold
 - D3.js knowledge graph visualization
+- GitHub Pages demo deployment
 
 ### In Progress
 

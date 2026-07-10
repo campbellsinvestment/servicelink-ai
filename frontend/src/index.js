@@ -1,6 +1,11 @@
 import "./styles/main.css";
 
-import { fetchDashboardData, fetchGraphData, fetchRecommendations } from "./js/api.js";
+import {
+  fetchDashboardData,
+  fetchGraphData,
+  fetchRecommendations,
+  isDemoBuild,
+} from "./js/api.js";
 import { renderDashboard } from "./js/pages/dashboard.js";
 import { mountGraphPage, renderGraphPage } from "./js/pages/graph.js";
 import { renderRecommendationsPage } from "./js/pages/recommendations.js";
@@ -45,6 +50,11 @@ function renderShell(activePageKey) {
 
   return `
     <div class="app-shell">
+      ${
+        isDemoBuild()
+          ? `<p class="demo-banner">Demo mode · bundled dataset snapshot</p>`
+          : ""
+      }
       <header class="app-header">
         <div class="shell-inner app-header__inner">
           <div>

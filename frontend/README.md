@@ -40,3 +40,8 @@ npm run build
 ```
 
 Production assets are written to `frontend/dist/`.
+
+## GitHub Pages
+
+See [docs/DEVELOPMENT.md](../docs/DEVELOPMENT.md#github-pages) for deployment
+details. The live site uses bundled demo data exported from the backend.

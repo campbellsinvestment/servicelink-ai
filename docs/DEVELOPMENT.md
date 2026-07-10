@@ -19,6 +19,34 @@ npm run dev
 The API runs on `http://localhost:8000`. The dashboard runs on
 `http://localhost:8080`.
 
+## GitHub Pages
+
+The live demo is published from the `main` branch via GitHub Actions.
+
+**URL:** `https://campbellsinvestment.github.io/servicelink-ai/`
+
+Enable it once in the repository settings:
+
+1. **Settings → Pages → Build and deployment**
+2. Set **Source** to **GitHub Actions**
+
+Each push to `main` runs `.github/workflows/pages.yml`, which:
+
+1. Exports a demo API snapshot from the backend test client
+2. Builds the frontend in demo mode with the correct `/servicelink-ai/` asset path
+3. Deploys `frontend/dist` to GitHub Pages
+
+The public site uses bundled demo data so it works without a hosted API.
+Local development still talks to the FastAPI server on port 8000.
+
+To reproduce the Pages build locally:
+
+```bash
+python scripts/export_demo_data.py
+cd frontend
+ACIE_DEMO_MODE=true WEBPACK_PUBLIC_PATH=/servicelink-ai/ npm run build:pages
+```
+
 ## Testing
 
 ```bash
