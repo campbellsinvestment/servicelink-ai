@@ -1,13 +1,5 @@
-const KEYWORD_OVERLAP_SCORE = 3;
-
-const SOURCE_TRUST_SCORES = {
-  InformAlberta: 5,
-  "Community Services": 2,
-};
-
 export function parseMatchReasons(reasons) {
   const tags = [];
-  const hasCity = reasons.some((reason) => reason.startsWith("city:"));
 
   for (const reason of reasons) {
     if (reason.startsWith("category:")) {
@@ -49,52 +41,5 @@ export function parseMatchReasons(reasons) {
     }
   }
 
-  const breakdown = [];
-
-  if (reasons.some((reason) => reason.startsWith("category:"))) {
-    breakdown.push({
-      label: "Category match",
-      points: hasCity ? 10 : 5,
-    });
-  }
-
-  if (hasCity) {
-    breakdown.push({ label: "City match", points: 5 });
-  }
-
-  const keywordReason = reasons.find((reason) => reason.startsWith("keywords:"));
-
-  if (keywordReason) {
-    const keywordCount = keywordReason.slice("keywords:".length).split(",").length;
-    breakdown.push({
-      label: "Keyword overlap",
-      points: keywordCount * KEYWORD_OVERLAP_SCORE,
-    });
-  }
-
-  const sourceReason = reasons.find((reason) => reason.startsWith("source:"));
-
-  if (sourceReason) {
-    const source = sourceReason.slice("source:".length);
-    breakdown.push({
-      label: "Source trust",
-      points: SOURCE_TRUST_SCORES[source] || 0,
-    });
-  }
-
-  if (reasons.some((reason) => reason.startsWith("organization:"))) {
-    breakdown.push({ label: "Organization mention", points: 8 });
-  }
-
-  return { tags, breakdown };
-}
-
-export function formatScoreSummary(breakdown, totalScore) {
-  if (!breakdown.length) {
-    return `Score ${totalScore}`;
-  }
-
-  const parts = breakdown.map((item) => `${item.label} +${item.points}`);
-
-  return `Score ${totalScore} · ${parts.join(" · ")}`;
+  return tags;
 }

@@ -215,15 +215,26 @@ body {
   line-height: 1.6;
 }
 
-.featured-match__meta,
-.featured-match__score {
-  margin: 0.5rem 0 0;
-  font-size: 0.875rem;
-  color: var(--acie-muted);
+.featured-match__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.875rem;
 }
 
-.featured-match__score {
-  margin-top: 0.75rem;
+.match-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--acie-brand);
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .match-list {
@@ -280,12 +291,6 @@ body {
   align-items: flex-end;
   gap: 0.65rem;
   min-width: 8rem;
-}
-
-.match-row__score {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--acie-brand);
 }
 
 .tag-list {

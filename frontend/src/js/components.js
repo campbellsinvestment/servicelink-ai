@@ -1,4 +1,4 @@
-import { formatScoreSummary, parseMatchReasons } from "./explain.js";
+import { parseMatchReasons } from "./explain.js";
 
 export function renderStatusMessage(message, { isError = false } = {}) {
   const className = isError
@@ -9,7 +9,7 @@ export function renderStatusMessage(message, { isError = false } = {}) {
 }
 
 export function renderReasonTags(reasons) {
-  const { tags } = parseMatchReasons(reasons);
+  const tags = parseMatchReasons(reasons);
 
   if (!tags.length) {
     return "";
@@ -38,9 +38,6 @@ export function renderStatItem(label, value) {
 }
 
 export function renderFeaturedMatch(recommendation) {
-  const { breakdown } = parseMatchReasons(recommendation.match_reasons);
-  const category = recommendation.category.replaceAll("_", " ");
-
   return `
     <article class="featured-match">
       <p class="featured-match__lead">
@@ -48,22 +45,17 @@ export function renderFeaturedMatch(recommendation) {
         <strong>${recommendation.post_title || recommendation.post_id}</strong>
         matched
         <strong>${recommendation.service_name}</strong>
-        in ${recommendation.city}.
+        from ${recommendation.organization} in ${recommendation.city}.
       </p>
-      <p class="featured-match__meta">
-        ${recommendation.organization} · ${category}
-      </p>
-      <p class="featured-match__score">
-        ${formatScoreSummary(breakdown, recommendation.score)}
-      </p>
-      ${renderReasonTags(recommendation.match_reasons)}
+      <div class="featured-match__footer">
+        <span class="match-score">${recommendation.score}</span>
+        ${renderReasonTags(recommendation.match_reasons)}
+      </div>
     </article>
   `;
 }
 
 export function renderRecommendationRow(recommendation) {
-  const category = recommendation.category.replaceAll("_", " ");
-
   return `
     <li class="match-row">
       <div class="match-row__main">
@@ -73,13 +65,11 @@ export function renderRecommendationRow(recommendation) {
         <p class="match-row__arrow" aria-hidden="true">→</p>
         <p class="match-row__service">
           ${recommendation.service_name}
-          <span class="match-row__provider">
-            ${recommendation.organization} · ${recommendation.city} · ${category}
-          </span>
+          <span class="match-row__provider">${recommendation.organization}</span>
         </p>
       </div>
       <div class="match-row__aside">
-        <span class="match-row__score">${recommendation.score}</span>
+        <span class="match-score">${recommendation.score}</span>
         ${renderReasonTags(recommendation.match_reasons)}
       </div>
     </li>
