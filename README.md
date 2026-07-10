@@ -32,6 +32,23 @@ does not use their private code or research datasets.
 - Reddit post ingestion and timestamp normalization
 - REST API endpoints for services and social posts
 - Automated unit and integration tests
+- Indeed and ZipRecruiter job-posting ingestion
+- Shared normalized job-posting model
+- Multi-source job aggregation endpoint
+- Source-specific adapters using a common ingestion architecture
+
+## Current ingestion architecture
+
+Each data source has its own adapter that converts a
+source-specific CSV schema into a shared Pydantic model.
+
+Supported sources:
+
+- InformAlberta-style service records
+- Community-service records
+- Reddit posts
+- Indeed job postings
+- ZipRecruiter job postings
 
 ## Demonstration data
 

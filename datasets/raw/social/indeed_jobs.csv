@@ -1,0 +1,4 @@
+job_id,job_title,company_name,job_description,city,province,job_type,salary_text,date_posted,job_url
+i001,Warehouse Associate,Alberta Distribution Ltd,Load and organize inventory in a warehouse environment,Edmonton,AB,Full-time,$22 per hour,2026-05-10,https://example.com/indeed/i001
+i002,Community Support Worker,Senior Care Alberta,Provide daily living and transportation support to seniors,Stony Plain,AB,Part-time,$24 per hour,2026-05-11,https://example.com/indeed/i002
+i003,Software Developer,North Prairie Systems,Develop Python APIs and web applications for internal teams,Spruce Grove,AB,Full-time,$75000-$90000,2026-05-12,https://example.com/indeed/i003

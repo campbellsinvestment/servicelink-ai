@@ -1,0 +1,4 @@
+listing_id,title,employer,summary,location_name,work_schedule,compensation,published_date,apply_link
+z001,Delivery Driver,Parkland Meals Society,Deliver meals to seniors throughout Parkland County,"Stony Plain, Alberta",Contract,$25 hourly,2026-05-09T09:00:00Z,https://example.com/zip/z001
+z002,Data Analyst,Edmonton Insights Group,Build reports and analyze operational datasets,"Edmonton, Alberta",Full Time,$70000 annually,2026-05-10T15:30:00Z,https://example.com/zip/z002
+z003,Home Care Assistant,Spruce Grove Home Supports,Provide in-home assistance for older adults,"Spruce Grove, Alberta",Part Time,$23 hourly,2026-05-11T11:00:00Z,https://example.com/zip/z003

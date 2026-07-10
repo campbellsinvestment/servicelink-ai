@@ -11,6 +11,11 @@ from backend.app.services.social_importer import (
     import_reddit_posts,
 )
 
+from backend.app.services.job_importer import (
+    import_indeed_jobs,
+    import_ziprecruiter_jobs,
+)
+
 app = FastAPI(
     title="ServiceLink AI",
     description=(
@@ -103,4 +108,77 @@ def get_reddit_summary() -> dict[str, object]:
         "source": "Reddit",
         "total_posts": len(posts),
         "communities": communities,
+    }
+
+@app.get("/job-postings")
+def get_job_postings() -> list[dict]:
+    indeed_path = (
+        PROJECT_ROOT
+        / "datasets"
+        / "raw"
+        / "social"
+        / "indeed_jobs.csv"
+    )
+
+    ziprecruiter_path = (
+        PROJECT_ROOT
+        / "datasets"
+        / "raw"
+        / "social"
+        / "ziprecruiter_jobs.csv"
+    )
+
+    jobs = [
+        *import_indeed_jobs(indeed_path),
+        *import_ziprecruiter_jobs(ziprecruiter_path),
+    ]
+
+    return [
+        job.model_dump(mode="json")
+        for job in jobs
+    ]
+
+
+@app.get("/job-postings/summary")
+def get_job_posting_summary() -> dict[str, object]:
+    indeed_path = (
+        PROJECT_ROOT
+        / "datasets"
+        / "raw"
+        / "social"
+        / "indeed_jobs.csv"
+    )
+
+    ziprecruiter_path = (
+        PROJECT_ROOT
+        / "datasets"
+        / "raw"
+        / "social"
+        / "ziprecruiter_jobs.csv"
+    )
+
+    jobs = [
+        *import_indeed_jobs(indeed_path),
+        *import_ziprecruiter_jobs(ziprecruiter_path),
+    ]
+
+    sources = sorted(
+        {
+            job.source
+            for job in jobs
+        }
+    )
+
+    locations = sorted(
+        {
+            job.location
+            for job in jobs
+            if job.location
+        }
+    )
+
+    return {
+        "total_jobs": len(jobs),
+        "sources": sources,
+        "locations": locations,
     }
