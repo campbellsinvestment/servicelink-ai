@@ -23,37 +23,31 @@ export function renderAppFooter() {
   return `
     <footer class="app-footer">
       <div class="shell-inner app-footer__inner">
-        <p class="app-footer__note">
-          Demo CSVs live in the repository. The dashboard reads normalized data
-          from the local FastAPI service.
-        </p>
-        <div class="app-footer__links">
-          <a
-            class="footer-link footer-link--icon"
-            href="${GITHUB_REPO_URL}"
-            target="_blank"
-            rel="noreferrer"
-          >
-            ${renderGitHubIcon()}
-            <span>GitHub</span>
-          </a>
-          <a
-            class="footer-link"
-            href="${GITHUB_DATASETS_URL}"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Datasets
-          </a>
-          <a
-            class="footer-link"
-            href="${apiDocsUrl}"
-            target="_blank"
-            rel="noreferrer"
-          >
-            API docs
-          </a>
-        </div>
+        <a
+          class="footer-link footer-link--icon"
+          href="${GITHUB_REPO_URL}"
+          target="_blank"
+          rel="noreferrer"
+        >
+          ${renderGitHubIcon()}
+          <span>GitHub</span>
+        </a>
+        <a
+          class="footer-link"
+          href="${GITHUB_DATASETS_URL}"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Datasets
+        </a>
+        <a
+          class="footer-link"
+          href="${apiDocsUrl}"
+          target="_blank"
+          rel="noreferrer"
+        >
+          API docs
+        </a>
       </div>
     </footer>
   `;
