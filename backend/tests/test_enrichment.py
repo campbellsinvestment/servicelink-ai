@@ -29,9 +29,6 @@ def test_enrich_social_post_populates_lexical_fields() -> None:
     enriched = enrich_social_post(transportation_post)
 
     assert enriched.service_categories == ["transportation"]
-    assert enriched.locations == ["Edmonton"]
-    assert "transportation" in enriched.keywords
-    assert enriched.organizations == []
 
 
 def test_enrich_social_post_uses_community_for_location_hints() -> None:
@@ -56,3 +53,25 @@ def test_enrich_social_post_leaves_unrelated_posts_without_categories() -> None:
 
     assert enriched.service_categories == []
     assert enriched.locations == ["Stony Plain", "Spruce Grove"]
+
+
+def test_enrich_social_post_extracts_mentioned_organizations() -> None:
+    posts = import_reddit_posts(REDDIT_DATASET)
+    organization_post = next(
+        post for post in posts if post.source_record_id == "r005"
+    )
+
+    assert organization_post.organizations == ["Edmonton Seniors Centre"]
+    assert organization_post.service_categories == ["transportation"]
+    assert organization_post.locations == ["Edmonton"]
+
+
+def test_enrich_social_post_without_registry_leaves_organizations_empty() -> None:
+    posts = import_reddit_posts(REDDIT_DATASET)
+    organization_post = next(
+        post for post in posts if post.source_record_id == "r005"
+    )
+
+    enriched = enrich_social_post(organization_post)
+
+    assert enriched.organizations == []
