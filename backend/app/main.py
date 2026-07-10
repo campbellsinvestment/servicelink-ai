@@ -1,4 +1,12 @@
+from pathlib import Path
+
 from fastapi import FastAPI
+
+from backend.app.services.service_importer import (
+    import_community_services,
+    import_informalberta_services,
+)
+
 
 app = FastAPI(
     title="ServiceLink AI",
@@ -6,21 +14,47 @@ app = FastAPI(
         "An independent research-software prototype for normalizing "
         "community-service data and linking it to social-platform posts."
     ),
-    version="0.1.0",
+    version="0.2.0",
 )
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 @app.get("/")
 def read_root() -> dict[str, str]:
-    """Return basic application information."""
     return {
         "name": "ServiceLink AI",
         "status": "running",
-        "version": "0.1.0",
+        "version": "0.2.0",
     }
 
 
 @app.get("/health")
 def health_check() -> dict[str, str]:
-    """Return the health status of the API."""
     return {"status": "healthy"}
+
+
+@app.get("/services")
+def get_services() -> list[dict]:
+    informalberta_path = (
+        PROJECT_ROOT
+        / "datasets"
+        / "raw"
+        / "services"
+        / "informalberta_services.csv"
+    )
+
+    community_path = (
+        PROJECT_ROOT
+        / "datasets"
+        / "raw"
+        / "services"
+        / "community_services.csv"
+    )
+
+    services = [
+        *import_informalberta_services(informalberta_path),
+        *import_community_services(community_path),
+    ]
+
+    return [service.model_dump() for service in services]
