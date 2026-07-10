@@ -120,3 +120,20 @@ def test_cors_allows_local_frontend_origin() -> None:
     assert response.headers["access-control-allow-origin"] == (
         "http://localhost:8080"
     )
+
+
+def test_search_endpoint_returns_interpreted_results() -> None:
+    response = client.get(
+        "/search",
+        params={"q": "meal delivery in Stony Plain"},
+    )
+
+    assert response.status_code == 200
+
+    payload = response.json()
+
+    assert payload["interpretation"]["categories"] == ["food_support"]
+    assert payload["interpretation"]["locations"] == ["Stony Plain"]
+    assert payload["results"]
+    assert payload["results"][0]["city"] == "Stony Plain"
+    assert payload["answer"]

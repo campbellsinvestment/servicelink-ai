@@ -42,6 +42,7 @@ Responsible for
 - job posting enrichment and service linking
 - deterministic entity linking between posts and services
 - explainable recommendation scoring
+- conversational search over community services
 
 ## API Layer
 
@@ -53,4 +54,4 @@ between Reddit posts, job postings, community services, and organizations.
 Future work includes
 
 - semantic search
-- conversational AI
+- LLM-assisted conversational agents

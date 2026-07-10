@@ -74,3 +74,19 @@ export function fetchGraphData() {
     jobLinks,
   }));
 }
+
+export async function searchConversational(query, limit = 5) {
+  if (isDemoMode()) {
+    const { searchServicesLocal } = await import("./searchLocal.js");
+    const demo = await loadDemoData();
+
+    return searchServicesLocal(query, demo.endpoints["/services"], limit);
+  }
+
+  const params = new URLSearchParams({
+    q: query,
+    limit: String(limit),
+  });
+
+  return fetchJson(`/search?${params.toString()}`);
+}

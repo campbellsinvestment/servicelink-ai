@@ -82,6 +82,12 @@ ACIE explores how software can:
 - Posts, services, and organizations as nodes
 - Match, provider, and mention relationships from entity links
 
+## Conversational Search
+
+- Natural-language service questions via `/search`
+- Lexical intent extraction for category and city
+- Ranked, explainable answers in the dashboard Search tab
+
 ## REST API
 
 - FastAPI
@@ -211,17 +217,17 @@ No personal information is collected, scraped, or redistributed.
 - GitHub Pages demo deployment
 - Job posting enrichment and service linking
 - Docker Compose local stack
+- Conversational search
 
 ### In Progress
 
-- Conversational search
+- Semantic search
 
 ### Planned
 
 - LLM-assisted entity resolution
-- Semantic search
 - Geographic proximity scoring
-- Interactive dashboard
+- Interactive dashboard enhancements
 
 ---
 

@@ -12,8 +12,9 @@ Webpack dashboard for the Alberta Community Intelligence Engine.
 ## Pages
 
 - **Dashboard** — stats and best match
+- **Search** — conversational service questions
 - **Recommendations** — ranked post-to-service matches
-- **Graph** — force-directed view of posts, services, and organizations
+- **Graph** — posts, jobs, services, and organizations
 
 ## Development
 

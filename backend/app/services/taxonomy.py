@@ -4,6 +4,9 @@ CATEGORY_ALIASES = {
         "senior transport",
         "transport",
         "transportation help",
+        "rides",
+        "ride",
+        "medical appointments",
     },
     "food_support": {
         "food support",
@@ -13,6 +16,7 @@ CATEGORY_ALIASES = {
         "deliver meals",
         "meal",
         "meals",
+        "food",
     },
     "home_care": {
         "home care",
@@ -23,6 +27,9 @@ CATEGORY_ALIASES = {
         "home care assistant",
         "community support worker",
         "daily living",
+        "caregiver",
+        "in home support",
+        "in-home support",
     },
 }
 

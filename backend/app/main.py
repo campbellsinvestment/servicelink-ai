@@ -23,6 +23,7 @@ from backend.app.services.recommendations import (
     build_post_recommendations,
     build_recommendations,
 )
+from backend.app.services.search import search_services
 
 app = FastAPI(
     title="Alberta Community Intelligence Engine",
@@ -203,6 +204,17 @@ def get_reddit_post_service_links(post_id: str) -> list[dict]:
     ]
 
     return [link.model_dump() for link in filtered_links]
+
+
+@app.get("/search")
+def get_search(q: str, limit: int = 5) -> dict:
+    response = search_services(
+        PROJECT_ROOT,
+        q,
+        limit=limit,
+    )
+
+    return response.model_dump()
 
 
 @app.get("/recommendations")

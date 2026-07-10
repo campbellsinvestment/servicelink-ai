@@ -5,10 +5,12 @@ import {
   fetchGraphData,
   fetchRecommendations,
   isDemoBuild,
+  searchConversational,
 } from "./js/api.js";
 import { renderDashboard } from "./js/pages/dashboard.js";
 import { mountGraphPage, renderGraphPage } from "./js/pages/graph.js";
 import { renderRecommendationsPage } from "./js/pages/recommendations.js";
+import { mountSearchPage, renderSearchPage } from "./js/pages/search.js";
 import { renderStatusMessage } from "./js/components.js";
 import { renderAppFooter, renderHeaderActions } from "./js/links.js";
 
@@ -17,6 +19,12 @@ const PAGES = {
     label: "Dashboard",
     load: fetchDashboardData,
     render: renderDashboard,
+  },
+  search: {
+    label: "Search",
+    load: async () => ({ search: searchConversational }),
+    render: renderSearchPage,
+    mount: mountSearchPage,
   },
   recommendations: {
     label: "Recommendations",

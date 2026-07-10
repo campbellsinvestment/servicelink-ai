@@ -164,6 +164,32 @@ Example
 
 ---
 
+## Conversational Search
+
+GET
+
+```
+/search?q={query}
+```
+
+Interprets a natural-language question, extracts service categories and
+locations, and returns ranked community-service matches with an
+explainable answer.
+
+Optional query parameter:
+
+```
+limit=5
+```
+
+Example
+
+```
+/search?q=meal%20delivery%20in%20Stony%20Plain
+```
+
+---
+
 ## Recommendations
 
 GET
